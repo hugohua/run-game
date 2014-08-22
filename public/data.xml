@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="iso-8859-1"?> 
+<data>
+         <LoaderMax name="dynamicLoaderMax" load="true">
+         		<ImageLoader name="photo1" url="img/bg_nv.png" />
+                <SWFLoader name="startSWF" url="start.swf" autoPlay="false" />
+         </LoaderMax>
+</data>
