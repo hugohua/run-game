@@ -18,10 +18,10 @@
     <jpegDefaultName>1</jpegDefaultName>
     <pngDefaultName>1</pngDefaultName>
     <swcDefaultName>1</swcDefaultName>
-    <flashFileName>E:\ecc_ecd_rep\labs_proj\trunk\run_game\start\bin-debug\start.swf</flashFileName>
+    <flashFileName>E:\ecc_ecd_rep\labs_proj\trunk\run_game\public\start.swf</flashFileName>
     <projectorWinFileName>start.exe</projectorWinFileName>
     <projectorMacFileName>start.app</projectorMacFileName>
-    <htmlFileName>E:\ecc_ecd_rep\labs_proj\trunk\run_game\start\bin-debug\start.html</htmlFileName>
+    <htmlFileName>E:\ecc_ecd_rep\labs_proj\trunk\run_game\public\start.html</htmlFileName>
     <gifFileName>start.gif</gifFileName>
     <jpegFileName>start.jpg</jpegFileName>
     <pngFileName>start.png</pngFileName>
@@ -100,7 +100,7 @@
     <RSLPreloaderSWF>$(AppConfig)/ActionScript 3.0/rsls/loader_animation.swf</RSLPreloaderSWF>
     <LibraryPath>
       <library-path-entry>
-        <swc-path>$(AppConfig)/ActionScript 3.0/libs</swc-path>
+        <swc-path>E:\ecc_ecd_rep\labs_proj\trunk\run_game\common\bin\common.swc</swc-path>
         <linkage>merge</linkage>
       </library-path-entry>
     </LibraryPath>

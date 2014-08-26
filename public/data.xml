@@ -1,7 +1,12 @@
-<?xml version="1.0" encoding="iso-8859-1"?> 
+<?xml version="1.0" encoding="iso-8859-1"?>
 <data>
-         <LoaderMax name="dynamicLoaderMax" load="true">
-         		<ImageLoader name="photo1" url="img/bg_nv.png" />
-                <SWFLoader name="startSWF" url="start.swf" autoPlay="false" />
-         </LoaderMax>
+<LoaderMax name="dynamicLoaderMax" load="true">
+    <ImageLoader name="photo1" url="img/bg_nv.png"/>
+    <SWFLoader name="startSWF" url="start.swf" autoPlay="false"/>
+</LoaderMax>
+<LoaderMax name="queue2" load="false">
+    <SWFLoader name="boySWF" url="boy.swf" autoPlay="true"/>
+    <SWFLoader name="part1SWF" url="part1.swf" autoPlay="true"/>
+</LoaderMax>
+
 </data>

@@ -1,12 +1,10 @@
 ﻿package
 {
-	import com.greensock.TweenMax;
-	
 	import flash.display.Sprite;
 	import flash.events.Event;
-	import flash.system.Security;
 	import flash.events.MouseEvent;
-	
+	import flash.system.Security;
+	import com.paipai.GameEvent;
 	public class start extends Sprite
 	{
 		
@@ -19,7 +17,7 @@
 		}
 		
 		protected function addedToStageHandler(e:Event = null):void{
-			//移除事件
+			//移除事件  
 			if(hasEventListener(Event.ADDED_TO_STAGE))
 				removeEventListener(Event.ADDED_TO_STAGE,addedToStageHandler);
 			
@@ -27,22 +25,46 @@
 		}
 		
 		/**
-		 * 添加事件
+		 * 添加事件   
 		 */
 		private function addEvent():void{
 			mcGril.addEventListener(MouseEvent.MOUSE_OVER,showEvent);
 			mcGril.addEventListener(MouseEvent.MOUSE_OUT,hideEvent);
+			mcGril.btnGo.addEventListener(MouseEvent.CLICK,startGameEvent);
+			mcMan.btnGo2.addEventListener(MouseEvent.CLICK,startGameEvent);
+		}
+		
+		private function removeEvent():void{
+			mcGril.removeEventListener(MouseEvent.MOUSE_OVER,showEvent);
+			mcGril.removeEventListener(MouseEvent.MOUSE_OUT,hideEvent);
+			mcGril.btnGo.removeEventListener(MouseEvent.CLICK,startGameEvent);
+			mcMan.btnGo2.removeEventListener(MouseEvent.CLICK,startGameEvent);
 		}
 		
 		private function showEvent(event:MouseEvent):void{
-			mcGril.gotoAndPlay("end");
+//			mcGril.gotoAndPlay("end");
 		};
 		
 		private function hideEvent(event:MouseEvent):void{
-			mcGril.gotoAndPlay("start"); 
+//			mcGril.gotoAndPlay("start");
 		};
 		
-		//public function show
+		/**
+		 * 开始游戏
+		 */
+		private function startGameEvent(event:MouseEvent):void{
+			trace('click startGameEvent',event.target.name)
+			stage.dispatchEvent( new GameEvent(GameEvent.GameStart,{target:event.target.name}) );
+			//加载背景及人物
+		}
+		
+		/**
+		 * 销毁对象
+		 */
+		public function dispose():void{
+			removeEvent();
+		}
+		
 		
 		
 	}
