@@ -1,13 +1,13 @@
 /**
- * VERSION: 1.937
- * DATE: 2014-06-26
+ * VERSION: 1.92
+ * DATE: 2012-08-08
  * AS3
  * UPDATES AND DOCS AT: http://www.greensock.com/loadermax/
  **/
 package com.greensock.loading.core {
 	import com.greensock.events.LoaderEvent;
-	import com.greensock.loading.LoaderMax;
 	import com.greensock.loading.LoaderStatus;
+	import com.greensock.loading.LoaderMax;
 	
 	import flash.events.Event;
 	import flash.events.ProgressEvent;
@@ -21,16 +21,15 @@ package com.greensock.loading.core {
  * Serves as the base class for all individual loaders (not LoaderMax) like <code>ImageLoader, 
  * XMLLoader, SWFLoader, MP3Loader</code>, etc. There is no reason to use this class on its own. 
  * Please see the documentation for the other classes.
+ * <br /><br />
  * 
- * <p><strong>Copyright 2010-2014, GreenSock. All rights reserved.</strong> This work is subject to the terms in <a href="http://www.greensock.com/terms_of_use.html">http://www.greensock.com/terms_of_use.html</a> or for <a href="http://www.greensock.com/club/">Club GreenSock</a> members, the software agreement that was issued with the membership.</p>
+ * <b>Copyright 2010-2012, GreenSock. All rights reserved.</b> This work is subject to the terms in <a href="http://www.greensock.com/terms_of_use.html">http://www.greensock.com/terms_of_use.html</a> or for corporate Club GreenSock members, the software agreement that was issued with the corporate membership.
  * 
  * @author Jack Doyle, jack@greensock.com
  */	
 	public class LoaderItem extends LoaderCore {
 		/** @private **/
 		protected static var _cacheID:Number = new Date().getTime();
-		/** @private **/
-		protected static var _underlineExp:RegExp = /%5f/gi;
 		
 		/** @private **/
 		protected var _url:String;
@@ -86,7 +85,7 @@ package com.greensock.loading.core {
 				extraParams += (extraParams == "") ? a[1] : "&" + a[1];
 			}
 			if (extraParams != "") {
-				var data:URLVariables = new URLVariables( ((request.data is URLVariables) ? request.data.toString() : null) );
+				var data:URLVariables = (request.data is URLVariables) ? request.data as URLVariables : new URLVariables();
 				a = extraParams.split("&");
 				i = a.length;
 				var pair:Array;
@@ -94,10 +93,7 @@ package com.greensock.loading.core {
 					pair = a[i].split("=");
 					data[pair.shift()] = pair.join("=");
 				}
-				request.data = data.toString().replace(_underlineExp, "_");
-			}
-			if (_isLocal && this.vars.allowMalformedURL != true && _request.data != null && _request.url.substr(0, 4) != "http") {
-				_request.method = "POST"; //to avoid errors when loading local files with GET URL parameters
+				request.data = data;
 			}
 		}
 		
@@ -176,7 +172,7 @@ package com.greensock.loading.core {
 			if (this.vars.alternateURL != undefined && this.vars.alternateURL != "" && !_skipAlternateURL) { //don't do (_url != vars.alternateURL) because the audit could have changed it already - that's the whole purpose of _skipAlternateURL.
 				_errorHandler(event);
 				_skipAlternateURL = true;
-				_url = "temp" + (new Date().getTime()); //in case the audit already changed the _url to vars.alternateURL, we temporarily make it something different in order to force the refresh in the url setter which skips running the code if the url is set to the same value as it previously was. Don't use Math.random() because for some reason, Google Display Network disallows it (citing security reasons).
+				_url = "temp" + Math.random(); //in case the audit already changed the _url to vars.alternateURL, we temporarily make it something different in order to force the refresh in the url setter which skips running the code if the url is set to the same value as it previously was. 
 				this.url = this.vars.alternateURL; //also calls _load()
 			} else {
 				super._failHandler(event, dispatchError);
@@ -187,7 +183,7 @@ package com.greensock.loading.core {
 		/** @private **/
 		protected function _httpStatusHandler(event:Event):void {
 			_httpStatus = (event as Object).status;
-			dispatchEvent(new LoaderEvent(event.type, this, String(_httpStatus), event));
+			dispatchEvent(new LoaderEvent(LoaderEvent.HTTP_STATUS, this));
 		}
 		
 		

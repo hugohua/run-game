@@ -7,35 +7,35 @@
 package com.greensock.loading.data {
 	import flash.display.DisplayObject;
 /**
- * Can be used instead of a generic Object to define the <code>vars</code> parameter of a DataLoader's constructor. 
+ * Can be used instead of a generic Object to define the <code>vars</code> parameter of a DataLoader's constructor. <br /><br />	
  * 
- * <p>There are 2 primary benefits of using a DataLoaderVars instance to define your DataLoader variables:</p>
+ * There are 2 primary benefits of using a DataLoaderVars instance to define your DataLoader variables:
  *  <ol>
  *		<li> In most code editors, code hinting will be activated which helps remind you which special properties are available in DataLoader</li>
  *		<li> It enables strict data typing for improved debugging (ensuring, for example, that you don't define a Boolean value for <code>onComplete</code> where a Function is expected).</li>
- *  </ol>
+ *  </ol><br />
  * 
- * <p>The down side, of course, is that the code is more verbose and the DataLoaderVars class adds slightly more kb to your swf.</p>
+ * The down side, of course, is that the code is more verbose and the DataLoaderVars class adds slightly more kb to your swf.
  *
- * <p><strong>USAGE:</strong></p>
- * <p>Note that each method returns the DataLoaderVars instance, so you can reduce the lines of code by method chaining (see example below).</p>
+ * <b>USAGE:</b><br /><br />
+ * Note that each method returns the DataLoaderVars instance, so you can reduce the lines of code by method chaining (see example below).<br /><br />
  *	
- * <p><strong>Without DataLoaderVars:</strong></p><p><code>
- * new DataLoader("getData.php", {name:"myData", estimatedBytes:1500, format:"text", onComplete:completeHandler, onProgress:progressHandler});</code></p>
+ * <b>Without DataLoaderVars:</b><br /><code>
+ * new DataLoader("getData.php", {name:"myData", estimatedBytes:1500, format:"text", onComplete:completeHandler, onProgress:progressHandler});</code><br /><br />
  * 
- * <p><strong>With DataLoaderVars</strong></p><p><code>
- * new DataLoader("getData.php", new DataLoaderVars().name("myData").estimatedBytes(1500).format("text").onComplete(completeHandler).onProgress(progressHandler));</code></p>
+ * <b>With DataLoaderVars</b><br /><code>
+ * new DataLoader("getData.php", new DataLoaderVars().name("myData").estimatedBytes(1500).format("text").onComplete(completeHandler).onProgress(progressHandler));</code><br /><br />
  * 
- * <p><strong>NOTES:</strong></p>
+ * <b>NOTES:</b><br />
  * <ul>
  *	<li> To get the generic vars object that DataLoaderVars builds internally, simply access its "vars" property.
- * 		 In fact, if you want maximum backwards compatibility, you can tack ".vars" onto the end of your chain like this: <code>
+ * 		 In fact, if you want maximum backwards compatibility, you can tack ".vars" onto the end of your chain like this:<br /><code>
  * 		 new DataLoader("getData.php", new DataLoaderVars().name("myData").estimatedBytes(1500).format("text").vars);</code></li>
  *	<li> Using DataLoaderVars is completely optional. If you prefer the shorter synatax with the generic Object, feel
  * 		 free to use it. The purpose of this class is simply to enable code hinting and to allow for strict data typing.</li>
  * </ul>
  * 
- * <p><strong>Copyright 2010-2014, GreenSock. All rights reserved.</strong> This work is subject to the terms in <a href="http://www.greensock.com/terms_of_use.html">http://www.greensock.com/terms_of_use.html</a> or for <a href="http://www.greensock.com/club/">Club GreenSock</a> members, the software agreement that was issued with the membership.</p>
+ * <b>Copyright 2011, GreenSock. All rights reserved.</b> This work is subject to the terms in <a href="http://www.greensock.com/terms_of_use.html">http://www.greensock.com/terms_of_use.html</a> or for corporate Club GreenSock members, the software agreement that was issued with the corporate membership.
  * 
  * @author Jack Doyle, jack@greensock.com
  */	 

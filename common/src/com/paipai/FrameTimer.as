@@ -10,7 +10,7 @@
 	 */
 	public class FrameTimer
 	{
-		private static var _timer:ExactTimer = new ExactTimer(35,15,0);
+		private static var _timer:ExactTimer = new ExactTimer(35,10,0);
 		private static var _list : Array = new Array();
 
 		private static function timerHandler(event : TimerEvent):void

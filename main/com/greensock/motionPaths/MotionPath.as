@@ -8,23 +8,23 @@ package com.greensock.motionPaths {
 	import flash.display.Shape;
 	import flash.events.Event;
 /**
- * [AS3 only] A MotionPath defines a path along which a PathFollower can travel, making it relatively simple to do 
+ * A MotionPath defines a path along which a PathFollower can travel, making it relatively simple to do 
  * things like tween an object in a circular path. A PathFollower's position along the path is described using
  * its <code>progress</code> property, a value between 0 and 1 where 0 is at the beginning of the path, 0.5 is in
  * the middle, and 1 is at the very end of the path. So to tween a PathFollower along the path, you can simply
  * tween its <code>progress</code> property. To tween ALL of the followers on the path at once, you can
  * tween the MotionPath's <code>progress</code> property. PathFollowers automatically wrap so that if 
- * the <code>progress</code> value exceeds 1 or drops below 0, it shows up on the other end of the path
+ * the <code>progress</code> value exceeds 1 or drops below 0, it shows up on the other end of the path.<br /><br />
  *  
- * <p>Since MotionPath extends the Shape class, you can add an instance to the display list to see a line representation
+ * Since MotionPath extends the Shape class, you can add an instance to the display list to see a line representation
  * of the path drawn which can be helpful especially during the production phase. Use <code>lineStyle()</code> 
  * to adjust the color, thickness, and other attributes of the line that is drawn (or set the MotionPath's 
  * <code>visible</code> property to false or don't add it to the display list if you don't want to see the line 
  * at all). You can also adjust all of its properties like <code>scaleX, scaleY, rotation, width, height, x,</code> 
  * and <code>y</code> just like any DisplayObject. That means you can tween those values as well to achieve very 
- * dynamic, complex effects with ease.</p>
+ * dynamic, complex effects with ease.<br /><br />
  * 
- * <listing version="3.0">
+ * @example Example AS3 code:<listing version="3.0">
 import com.greensock.~~;
 import com.greensock.plugins.~~;
 import com.greensock.motionPaths.~~;
@@ -55,14 +55,14 @@ TweenLite.to(follower, 2, {progress:circle.followerTween(follower, 315, Directio
 TweenLite.to(follower, 2, {progress:circle.followerTween(follower, 200, Direction.COUNTER_CLOCKWISE, 1)});
 </listing>
  * 
- * <p><strong>NOTES</strong></p>
+ * <b>NOTES</b><br />
  * <ul>
  * 		<li>All followers are automatically updated when you alter the MotionPath that they're following.</li>
  * 		<li>To tween all followers along the path at once, simply tween the MotionPath's <code>progress</code> 
  * 			property which will provide better performance than tweening each follower independently.</li>
  * </ul>
  * 
- * <p><strong>Copyright 2010-2014, GreenSock. All rights reserved.</strong> This work is subject to the terms in <a href="http://www.greensock.com/terms_of_use.html">http://www.greensock.com/terms_of_use.html</a> or for <a href="http://www.greensock.com/club/">Club GreenSock</a> members, the software agreement that was issued with the membership.</p>
+ * <b>Copyright 2011, GreenSock. All rights reserved.</b> This work is subject to the terms in <a href="http://www.greensock.com/terms_of_use.html">http://www.greensock.com/terms_of_use.html</a> or for corporate Club GreenSock members, the software agreement that was issued with the corporate membership.
  * 
  * @author Jack Doyle, jack@greensock.com
  */	
@@ -180,13 +180,13 @@ TweenLite.to(follower, 2, {progress:circle.followerTween(follower, 200, Directio
 		/**
 		 * Distributes objects evenly along the MotionPath. You can optionally define minimum and maximum 
 		 * <code>progress</code> values between which the objects will be distributed. For example, if you want them 
-		 * distributed from the very beginning of the path to the middle, you would do:<p><code>
+		 * distributed from the very beginning of the path to the middle, you would do:<br /><br /><code>
 		 * 
-		 * path.distribute([mc1, mc2, mc3], 0, 0.5);</code></p>
+		 * path.distribute([mc1, mc2, mc3], 0, 0.5);<br /><br /></code>
 		 * 
-		 * <p>As it loops through the <code>targets</code> array, if a target is found for which a PathFollower
+		 * As it loops through the <code>targets</code> array, if a target is found for which a PathFollower
 		 * doesn't exist, one will automatically be created and added to the path. The <code>targets</code> 
-		 * array can be populated with PathFollowers or DisplayObjects or Points or pretty much any object. </p>
+		 * array can be populated with PathFollowers or DisplayObjects or Points or pretty much any object. 
 		 * 
 		 * @param targets An array of targets (PathFollowers, DisplayObjects, Points, or pretty much any object) that should be distributed evenly along the MotionPath. As it loops through the <code>targets</code> array, if a target is found for which a PathFollower doesn't exist, one will automatically be created and added to the path.
 		 * @param min The minimum <code>progress</code> value at which the targets will begin being distributed. This value will always be between 0 and 1. For example, if the targets should be distributed from the midpoint of the path through the end, the <code>min</code> parameter would be 0.5 and the <code>max</code> parameter would be 1.
@@ -253,17 +253,17 @@ TweenLite.to(follower, 2, {progress:circle.followerTween(follower, 200, Directio
 		
 		/**
 		 * Positions any object with x and y properties on the path at a specific progress position. 
-		 * For example, to position <code>mc</code> in the middle of the path, you would do:<p><code>
+		 * For example, to position <code>mc</code> in the middle of the path, you would do:<br /><br /><code>
 		 * 
-		 * myPath.renderObjectAt(mc, 0.5);</code></p>
+		 * myPath.renderObjectAt(mc, 0.5);</code><br /><br />
 		 * 
-		 * <p>Some paths have methods to translate other meaningful information into a progress value, like
+		 * Some paths have methods to translate other meaningful information into a progress value, like
 		 * for a <code>CirclePath2D</code> you can get the progress associated with the 90-degree position with the
-		 * <code>angleToPosition()</code> method like this:</p><p><code>
+		 * <code>angleToPosition()</code> method like this:<br /><br /><code>
 		 * 
 		 * myCircle.renderObjectAt(mc, myCircle.angleToProgress(90));
 		 * 
-		 * </code></p>
+		 * </code><br />
 		 * 
 		 * @param target The target object to position
 		 * @param progress The progress value (typically between 0 and 1 where 0 is the beginning of the path, 0.5 is in the middle, and 1 is at the end)
@@ -277,13 +277,13 @@ TweenLite.to(follower, 2, {progress:circle.followerTween(follower, 200, Directio
 		/**
 		 * Sets the line style for the path which you will only see if you add the path to the display list
 		 * with something like addChild() and make sure the visible property is true. For example, to make
-		 * a CirclePath2D visible with a red line red that's 3 pixels thick, you could do: 
+		 * a CirclePath2D visible with a red line red that's 3 pixels thick, you could do: <br /><br /><code>
 		 * 
-		 * <listing version="3.0">
-var myCircle:CirclePath2D = new CirclePath2D(150, 150, 100);
-myCircle.lineStyle(3, 0xFF0000);
-addChild(myCircle);
-</listing>
+		 * var myCircle:CirclePath2D = new CirclePath2D(150, 150, 100); <br />
+		 * myCircle.lineStyle(3, 0xFF0000);<br />
+		 * addChild(myCircle);<br />
+		 * 
+		 * </code>
 		 * 
 		 * @param thickness line thickness
 		 * @param color line color
@@ -388,24 +388,22 @@ addChild(myCircle);
 		 * For example, if you set the motion path's <code>rawProgress</code> to 2.1, <code>progress</code> 
 		 * would be 0.1 (the corresponding value between 0 and 1), essentially wrapping it. If <code>rawProgress</code> 
 		 * is set to -3.4, <code>progress</code> would be 0.6. Setting <code>progress</code> affects <code>rawProgress</code>
-		 * and vice versa. For example:
+		 * and vice versa. For example:<br /><br /><code>
 		 * 
-		 * <listing version="3.0">
-myPath.progress = 2.1;
-trace(myPath.progress); //traces "0.1"
-trace(myPath.rawProgress); //traces "2.1"
-</listing>
+		 * myPath.progress = 2.1;<br />
+		 * trace(myPath.progress); //traces "0.1"<br />
+		 * trace(myPath.rawProgress); //traces "2.1"<br /><br /></code>
 		 * 
-		 * <p>Either property can be used to move all followers along the path. Unlike a PathFollower's 
+		 * Either property can be used to move all followers along the path. Unlike a PathFollower's 
 		 * <code>progress</code> or <code>rawProgress</code>, this value is not absolute for motion paths - it simply 
 		 * facilitates relative movement of followers together along the path in a way that performs better than 
 		 * tweening each follower independently (plus it's easier). If your goal is to tween all followers around 
 		 * a CirclePath2D twice completely, for example, you could just add 2 to the <code>progress</code> or 
-		 * <code>rawProgress</code> value or use a relative value in the tween, like: </p><p><code>
+		 * <code>rawProgress</code> value or use a relative value in the tween, like: <br /><br /><code>
 		 * 
 		 * TweenLite.to(myCircle, 5, {rawProgress:"2"}); //or myCircle.rawProgress + 2
 		 * 
-		 * </code></p>
+		 * </code>
 		 * @see #progress
 		 **/
 		public function get rawProgress():Number {
@@ -424,24 +422,22 @@ trace(myPath.rawProgress); //traces "2.1"
 		 * be re-interpolated to its corresponding value between 0 and 1 very much like a DisplayObject's "rotation" 
 		 * property in Flash where setting it to 270 works fine but when you trace() the rotation value it will report 
 		 * as -90 instead because rotation is always interpolated to be between 180 and -180. Setting <code>progress</code> 
-		 * affects <code>rawProgress</code> too. For example:
+		 * affects <code>rawProgress</code> too. For example:<br /><br /><code>
 		 * 
-		 * <listing version="3.0">
-myPath.progress = 2.1;
-trace(myPath.progress); //traces "0.1"
-trace(myPath.rawProgress); //traces "2.1"
-</listing>
+		 * myPath.progress = 2.1;<br />
+		 * trace(myPath.progress); //traces "0.1"<br />
+		 * trace(myPath.rawProgress); //traces "2.1"<br /><br /></code>
 		 * 
-		 * <p>Either property can be used to move all followers along the path. Unlike a PathFollower's 
+		 * Either property can be used to move all followers along the path. Unlike a PathFollower's 
 		 * <code>progress</code> or <code>rawProgress</code>, this value is not absolute for motion paths - it simply 
 		 * facilitates movement of followers together along the path in a way that performs better than 
 		 * tweening each follower independently (plus it's easier). If your goal is to tween all followers around 
 		 * a CirclePath2D twice completely, you could just add 2 to the <code>progress</code> or 
-		 * <code>rawProgress</code> value or use a relative value in the tween, like: </p><p><code>
+		 * <code>rawProgress</code> value or use a relative value in the tween, like: <br /><br /><code>
 		 * 
-		 * TweenLite.to(myCircle, 5, {progress:"2"}); //or myCircle.progress + 2</code></p>
+		 * TweenLite.to(myCircle, 5, {progress:"2"}); //or myCircle.progress + 2<br /><br /></code>
 		 * 
-		 * <p>Also note that if you set <code>progress</code> to any value <i>outside</i> of the 0-1 range, 
+		 * Also note that if you set <code>progress</code> to any value <i>outside</i> of the 0-1 range, 
 		 * <code>rawProgress</code> will be set to that exact value. If <code>progress</code> is
 		 * set to a value <i>within</i> the typical 0-1 range, it will only affect the decimal value of 
 		 * <code>rawProgress</code>. For example, if <code>rawProgress</code> is 3.4 and then you 
@@ -453,7 +449,7 @@ trace(myPath.rawProgress); //traces "2.1"
 		 * where things were positioned by tweening <code>progress</code> to 0.8, it still may be
 		 * important to be able to determine how many loops/wraps occurred, so <code>rawProgress</code>
 		 * should be 3.8, not reset to 0.8. Feel free to use <code>rawProgress</code> exclusively if you 
-		 * prefer to avoid any of the re-interpolation that occurs with <code>progress</code>.</p>
+		 * prefer to avoid any of the re-interpolation that occurs with <code>progress</code>.
 		 * 
 		 * @see #rawProgress
 		 **/

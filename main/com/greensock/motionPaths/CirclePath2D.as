@@ -1,6 +1,6 @@
 /**
- * VERSION: 0.4.1 (beta)
- * DATE: 2013-03-11
+ * VERSION: 0.4 (beta)
+ * DATE: 2010-12-22
  * AS3
  * UPDATES AND DOCS AT: http://www.GreenSock.com
  **/
@@ -10,23 +10,23 @@ package com.greensock.motionPaths {
 	import flash.geom.Matrix;
 
 /**
- * [AS3 only] A CirclePath2D defines a circular path on which a PathFollower can be placed, making it simple to tween objects
+ * A CirclePath2D defines a circular path on which a PathFollower can be placed, making it simple to tween objects
  * along a circle or oval (make an oval by altering the width/height/scaleX/scaleY properties). A PathFollower's 
  * position along the path is described using its <code>progress</code> property, a value between 0 and 1 where 
  * 0 is at the beginning of the path, 0.5 is in the middle, and 1 is at the very end of the path. So to tween a 
  * PathFollower along the path, you can simply tween its <code>progress</code> property. To tween ALL of the 
  * followers on the path at once, you can tween the CirclePath2D's <code>progress</code> property. PathFollowers 
  * automatically wrap so that if the <code>progress</code> value exceeds 1 or drops below 0, it shows up on 
- * the other end of the path.
+ * the other end of the path.<br /><br />
  *  
- * <p>Since CirclePath2D extends the Shape class, you can add an instance to the display list to see a line representation
+ * Since CirclePath2D extends the Shape class, you can add an instance to the display list to see a line representation
  * of the path drawn which can be helpful especially during the production phase. Use <code>lineStyle()</code> 
  * to adjust the color, thickness, and other attributes of the line that is drawn (or set the CirclePath2D's 
  * <code>visible</code> property to false or don't add it to the display list if you don't want to see the line 
  * at all). You can also adjust all of its properties like <code>radius, scaleX, scaleY, rotation, width, height, x,</code> 
- * and <code>y</code>. That means you can tween those values as well to achieve very dynamic, complex effects with ease.</p>
+ * and <code>y</code>. That means you can tween those values as well to achieve very dynamic, complex effects with ease.<br /><br />
  * 
- * <listing version="3.0">
+ * @example Example AS3 code:<listing version="3.0">
 import com.greensock.~~;
 import com.greensock.plugins.~~;
 import com.greensock.motionPaths.~~;
@@ -57,14 +57,14 @@ TweenLite.to(follower, 2, {progress:circle.followerTween(follower, 315, Directio
 TweenLite.to(follower, 2, {progress:circle.followerTween(follower, 200, Direction.COUNTER_CLOCKWISE, 1)});
 </listing>
  * 
- * <p><strong>NOTES</strong></p>
+ * <b>NOTES</b><br />
  * <ul>
  * 		<li>All followers's positions are automatically updated when you alter the MotionPath that they're following.</li>
  * 		<li>To tween all followers along the path at once, simply tween the MotionPath's <code>progress</code> 
  * 			property which will provide better performance than tweening each follower independently.</li>
  * </ul>
  * 
- * <p><strong>Copyright 2010-2014, GreenSock. All rights reserved.</strong> This work is subject to the terms in <a href="http://www.greensock.com/terms_of_use.html">http://www.greensock.com/terms_of_use.html</a> or for <a href="http://www.greensock.com/club/">Club GreenSock</a> members, the software agreement that was issued with the membership.</p>
+ * <b>Copyright 2011, GreenSock. All rights reserved.</b> This work is subject to the terms in <a href="http://www.greensock.com/terms_of_use.html">http://www.greensock.com/terms_of_use.html</a> or for corporate Club GreenSock members, the software agreement that was issued with the corporate membership.
  * 
  * @author Jack Doyle, jack@greensock.com
  */	
@@ -221,7 +221,7 @@ TweenLite.to(follower, 2, {progress:circle.followerTween(follower, 200, Directio
 					dif = (dif < 0) ? dif + revolution : dif - revolution;
 				}
 			}
-			if (dif < 0 || (dif == 0 && direction == "counterClockwise")) {
+			if (dif < 0) {
 				dif -= extraRevolutions * revolution;
 			} else {
 				dif += extraRevolutions * revolution;
