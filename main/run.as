@@ -169,19 +169,19 @@ package
 			//加载场景2
 			swfBg.y = -610;
 			addChild(swfBg);
-//			//背景动画 
+//			//背景动画  
 			TweenMax.to(swfBg, 1, {y:0, ease:Linear.easeNone,onComplete:function(){
 				people = loader.getPeopleRun()
 				people.x = 118;
 				people.y = 510;
-				//加载场景元素  
+				//加载场景元素   
 				addChild(people);
-				//背景移动 
+				//背景移动   
 				addEnterFrame('bgMove',bgMove);
 			}});
 		}
 		
-		/**
+		/** 
 		 * 背景移动  
 		 */
 		private function bgMove():void{
@@ -222,13 +222,13 @@ package
 		
 		private function clickEvent(e:MouseEvent):void{
 			Utils.buttonToggle(e.target as SimpleButton);
-//			selectNum = e.target.name; 
+			GameModel.getInstance().setTops(e.target.name);
 		}
 		
 		private function goEvent(e:MouseEvent):void{
 			//无选中状态
-			if(!GameModel.getInstance().type){ return ; }
-			//移除事件 及 释放内存
+			if(!type){ return ; }
+			//移除事件 及 释放内存  
 			for(var i = 0,len = tempArr.length;i<len;i++){
 				popStart[tempArr[i]].removeEventListener(MouseEvent.CLICK, clickEvent);
 			}
