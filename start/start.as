@@ -5,6 +5,8 @@
 	import flash.events.MouseEvent;
 	import flash.system.Security;
 	import com.paipai.GameEvent;
+	import com.paipai.GameModel;
+	
 	public class start extends Sprite
 	{
 		
@@ -42,7 +44,7 @@
 		}
 		
 		private function showEvent(event:MouseEvent):void{
-//			mcGril.gotoAndPlay("end");
+//			mcGril.gotoAndPlay("end"); 
 		};
 		
 		private function hideEvent(event:MouseEvent):void{
@@ -52,9 +54,14 @@
 		/**
 		 * 开始游戏
 		 */
-		private function startGameEvent(event:MouseEvent):void{
-			trace('click startGameEvent',event.target.name)
-			stage.dispatchEvent( new GameEvent(GameEvent.GameStart,{target:event.target.name}) );
+		private function startGameEvent(e:MouseEvent):void{
+			var type = "girl";
+			if(e.target.name == "btnGo2"){
+				type = "boy";
+			}
+			trace(type)
+			GameModel.getInstance().type = type; 
+			stage.dispatchEvent( new GameEvent(GameEvent.GameStart,{type:type}) );
 			//加载背景及人物
 		}
 		

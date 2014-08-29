@@ -7,8 +7,9 @@ package com.paipai
 		//开始游戏事件
 		public static const GameStart:String = "GameStart";
 		public static const GameOver:String = "GameOver";
+		public static const GameSceneOver:String = "GameSceneOver";
 		
-		public var data: Object;
+		private var data: Object;
 		
 		public function GameEvent(type:String, data: Object, bubbles:Boolean=false, cancelable:Boolean=false)
 		{

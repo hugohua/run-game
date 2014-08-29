@@ -2,6 +2,16 @@
 <flexLibProperties includeAllClasses="true" useMultiPlatformConfig="false" version="3">
   <includeClasses>
     <classEntry path="com.paipai.GameEvent"/>
+    <classEntry path="com.paipai.Barrier"/>
+    <classEntry path="com.paipai.HitTest"/>
+    <classEntry path="com.paipai.Utils"/>
+    <classEntry path="com.paipai.Shoe"/>
+    <classEntry path="com.paipai.Data"/>
+    <classEntry path="com.paipai.Score"/>
+    <classEntry path="com.paipai.LocalSO"/>
+    <classEntry path="com.paipai.GameModel"/>
+    <classEntry path="com.paipai.Loader"/>
+    <classEntry path="com.paipai.SceneBackground1"/>
   </includeClasses>
   <includeResources/>
   <namespaceManifests/>

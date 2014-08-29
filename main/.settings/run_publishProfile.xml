@@ -18,10 +18,10 @@
     <jpegDefaultName>1</jpegDefaultName>
     <pngDefaultName>1</pngDefaultName>
     <swcDefaultName>1</swcDefaultName>
-    <flashFileName>E:\ecc_ecd_rep\labs_proj\trunk\run_game\public\run.swf</flashFileName>
+    <flashFileName>E:\ecc_ecd_rep\labs_proj\trunk\run_game\main\bin-debug\run.swf</flashFileName>
     <projectorWinFileName>run.exe</projectorWinFileName>
     <projectorMacFileName>run.app</projectorMacFileName>
-    <htmlFileName>E:\ecc_ecd_rep\labs_proj\trunk\run_game\public\run.html</htmlFileName>
+    <htmlFileName>E:\ecc_ecd_rep\labs_proj\trunk\run_game\main\bin-debug\run.html</htmlFileName>
     <gifFileName>run.gif</gifFileName>
     <jpegFileName>run.jpg</jpegFileName>
     <pngFileName>run.png</pngFileName>
@@ -101,6 +101,10 @@
     <LibraryPath>
       <library-path-entry>
         <swc-path>E:\ecc_ecd_rep\labs_proj\trunk\run_game\common\bin\common.swc</swc-path>
+        <linkage>merge</linkage>
+      </library-path-entry>
+      <library-path-entry>
+        <swc-path>E:\ecc_ecd_rep\labs_proj\trunk\run_game\swc\greensock.swc</swc-path>
         <linkage>merge</linkage>
       </library-path-entry>
     </LibraryPath>

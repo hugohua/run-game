@@ -4,10 +4,16 @@
     <ImageLoader name="photo1" url="img/bg_nv.png"/>
     <SWFLoader name="startSWF" url="start.swf" autoPlay="false"/>
 </LoaderMax>
-<LoaderMax name="queue2" load="false">
-    <SWFLoader name="boySWF" url="boy.swf" autoPlay="true"/>
-    <SWFLoader name="part1SWF" url="part1.swf" autoPlay="true"/>
-    <SWFLoader name="bgSWF" url="scene1.swf" autoPlay="true"/>
+<LoaderMax name="boyqueue" load="false">
+    <SWFLoader name="boySWF" url="boy.swf" autoPlay="false"/>
+    <SWFLoader name="boyPart1SWF" url="part1.swf" autoPlay="false"/>
+    <SWFLoader name="boySceneSWF" url="scene1.swf" autoPlay="false"/>
+</LoaderMax>
+
+<LoaderMax name="girlqueue" load="false">
+    <SWFLoader name="girlSWF" url="girl.swf" autoPlay="false"/>
+    <SWFLoader name="girlPart1SWF" url="part1.swf" autoPlay="false"/>
+    <SWFLoader name="girlSceneSWF" url="scene1.swf" autoPlay="false"/>
 </LoaderMax>
 
 </data>
