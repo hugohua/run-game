@@ -21,10 +21,16 @@ package com.paipai
 			shoe:{
 				
 			},
+			//生活方式
+			lift:{
+				
+			},
 			//选择穿上的上衣
 			topsSelect:false,
 			//选择穿上的鞋子
-			shoeSelect:false
+			shoeSelect:false,
+			//选择的生活方式
+			liftSelect:false
 		};
 		
 		//需要碰撞的people
@@ -120,6 +126,14 @@ package com.paipai
 		}
 		
 		/**
+		 * 鞋子
+		 */
+		public function setLift(name:String):void{
+			data.lift[name] = !data.lift[name];
+			setLos();
+		}
+		
+		/**
 		 * 获取选中的上衣数组
 		 */
 		public function getTops():Array{
@@ -143,6 +157,19 @@ package com.paipai
 				}
 			}
 			return shoe;
+		}
+		
+		/**
+		 * 获取选中的生活方式 
+		 */
+		public function getLift():Array{
+			var lift:Array = [];
+			for(var i:String in data.lift){
+				if(data.shoe[i]){
+					lift.push(i);
+				}
+			}
+			return lift;
 		}
 		
 		
@@ -185,6 +212,14 @@ package com.paipai
 		public function setShoeSelect(shoe:String):void{
 			data.shoeSelect = shoe;
 		}
+		
+		/**
+		 * 设置选择的生活方式
+		 */
+		public function setLiftSelect(lift:String):void{
+			data.liftSelect = lift;
+		}
+		
 		
 		/**
 		 * 获取穿上的物品

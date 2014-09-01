@@ -52,6 +52,11 @@ package com.paipai
 			return isWin;
 		}
 		
+		public function reset():void{
+			parent.setChildIndex(this,parent.numChildren - 1);
+			this.gotoAndStop(1);
+		}
+		
 		/**
 		 * 移除
 		 */ 

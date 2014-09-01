@@ -1,6 +1,12 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <flexLibProperties includeAllClasses="true" useMultiPlatformConfig="false" version="3">
-  <includeClasses/>
+  <includeClasses>
+    <classEntry path="com.paipai.LifePop"/>
+    <classEntry path="com.paipai.SceneBackground"/>
+    <classEntry path="com.paipai.SceneBackground2"/>
+    <classEntry path="com.paipai.SceneBackground3"/>
+    <classEntry path="com.paipai.SceneBackground4"/>
+  </includeClasses>
   <includeResources/>
   <namespaceManifests/>
 </flexLibProperties>

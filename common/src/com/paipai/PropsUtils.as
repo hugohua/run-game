@@ -41,6 +41,18 @@ package com.paipai
 		}
 		
 		/**
+		 * 创建鞋子
+		 */
+		public static function createLift(x:Number):MovieClip{
+			//获取鞋子
+			var lift:Array = GameModel.getInstance().getLift();
+			var mc:MovieClip = new Shoe(x);
+			var label:String = Utils.getRandom(lift);
+			mc.gotoAndStop(label);
+			return mc;
+		}
+		
+		/**
 		 * 创建道具
 		 */
 		public static function createProps(x:Number):MovieClip{
@@ -51,7 +63,7 @@ package com.paipai
 			}else if(scene == 2){
 				mc = PropsUtils.createShoe(x);
 			}else if(scene == 3){
-				mc
+				mc = PropsUtils.createLift(x);
 			}
 			return mc;
 		}

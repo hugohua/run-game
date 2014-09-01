@@ -67,7 +67,7 @@ package com.paipai
 				this.getChildByName(btns[i]).removeEventListener(MouseEvent.CLICK, clickEvent);
 			}
 			this.getChildByName('go').removeEventListener(MouseEvent.CLICK, goEvent);
-			parent.removeChild(this);
+//			parent.removeChild(this);
 		}
 		
 		/**

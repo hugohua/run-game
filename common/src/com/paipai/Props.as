@@ -9,6 +9,7 @@ package com.paipai
 	{
 		private static const SPEED:Number = Data.SPEED;
 		private var pos:Array = [200,400];
+		private var isHit:Boolean;		//只能碰撞一次
 		
 		public function Props(x:Number)
 		{
@@ -27,7 +28,8 @@ package com.paipai
 			//TODO: implement function
 			this.x -= SPEED;
 			//碰撞检测 碰撞到人了
-			if(HitTest.complexHitTestObject(this,GameModel.getInstance().hit)){
+			if(HitTest.complexHitTestObject(this,GameModel.getInstance().hit) && !isHit){
+				isHit = true;
 				GameEvent.hitProps({hit:this});
 			}
 		}

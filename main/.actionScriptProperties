@@ -1,11 +1,10 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <actionScriptProperties analytics="false" mainApplicationPath="run.as" projectUUID="3c690767-aa15-439f-829e-06b41aa939d7" version="11">
-  <compiler additionalCompilerArguments="-locale en_US" advancedTelemetry="false" autoRSLOrdering="true" copyDependentFiles="true" fteInMXComponents="false" generateAccessible="false" htmlExpressInstall="true" htmlGenerate="true" htmlHistoryManagement="true" htmlPlayerVersionCheck="true" includeNetmonSwc="false" outputFolderLocation="E:/ecc_ecd_rep/labs_proj/trunk/run-game/public" outputFolderPath="bin-debug" removeUnusedRSL="true" sourceFolderPath="" strict="true" targetPlayerVersion="11.4.0" useApolloConfig="false" useDebugRSLSwfs="true" useFlashSDK="true" verifyDigests="true" warn="true">
+  <compiler additionalCompilerArguments="-locale en_US" advancedTelemetry="false" autoRSLOrdering="true" copyDependentFiles="true" fteInMXComponents="false" generateAccessible="false" htmlExpressInstall="true" htmlGenerate="true" htmlHistoryManagement="true" htmlPlayerVersionCheck="true" includeNetmonSwc="false" outputFolderLocation="E:/ecc_ecd_rep/labs_proj/trunk/run-game/public" outputFolderPath="bin-debug" removeUnusedRSL="true" strict="true" targetPlayerVersion="11.4.0" useApolloConfig="false" useDebugRSLSwfs="true" useFlashSDK="true" verifyDigests="true" warn="true">
     <compilerSourcePath/>
     <libraryPath defaultLinkType="0">
       <libraryPathEntry kind="3" linkType="1" path="/common/bin/common.swc" useDefaultLinkType="false"/>
       <libraryPathEntry kind="3" linkType="1" path="C:/Program Files/Adobe/Adobe Flash CC 2014/Common/Configuration/ActionScript 3.0/FP13.0/playerglobal.swc" useDefaultLinkType="false"/>
-      <libraryPathEntry kind="3" linkType="1" path="E:/ecc_ecd_rep/labs_proj/trunk/run_game/common/bin/common.swc" useDefaultLinkType="false"/>
     </libraryPath>
     <sourceAttachmentPath/>
   </compiler>

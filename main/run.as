@@ -2,8 +2,7 @@ package
 {
 	
 	import com.greensock.TweenMax;
-	import com.greensock.easing.Bounce;
-	import com.greensock.easing.Linear;
+	import com.greensock.easing.Back;
 	import com.greensock.events.LoaderEvent;
 	import com.greensock.loading.ImageLoader;
 	import com.greensock.loading.LoaderMax;
@@ -31,10 +30,12 @@ package
 	import flash.display.SimpleButton;
 	import flash.display.Sprite;
 	import flash.events.Event;
+	import flash.events.KeyboardEvent;
 	import flash.events.MouseEvent;
 	import flash.external.ExternalInterface;
 	import flash.geom.Point;
 	import flash.system.Security;
+	import flash.ui.Keyboard;
 	import flash.utils.Dictionary;
 	
 	[SWF(width="990", height="600", frameRate="30",backgroundColor="0x00000000")]
@@ -45,8 +46,8 @@ package
 		
 		private var swf:Object;										//通用swf对象  
 		
-		private var swfRoadBg:SWFLoader;							//道路Background
-		private var swfBg:DisplayObject;							//背景swf
+//		private var swfRoadBg:SWFLoader;							//道路Background
+		private var swfBg:MovieClip;							//背景swf
 		private var enterFRAME:Dictionary;
 		private var people:MovieClip;								//用户
 		private var popStart:MovieClip;								//弹出选择框
@@ -65,9 +66,10 @@ package
 		private var type:String
 		private var loader:Loader;
 		private var firstPlay:Boolean;								//判定是否是第一次游戏
+		private var isOkJump:Boolean;								//用于判断是否可以跳起来
 		
 		private static const SPEED:Number = Data.SPEED;
-		private static const BGMOVEX:Number = Data.BGMOVEX;				//首屏背景移动的最终距离  
+		private static const BGMOVEX:Number = Data.BGMOVEX;				//首屏背景移动的最终距离   
 		
 		public function run()
 		{
@@ -78,7 +80,7 @@ package
 		}
 		
 		protected function addedToStageHandler(e:Event = null):void{
-			//移除事件 
+			//移除事件  
 			if(hasEventListener(Event.ADDED_TO_STAGE))
 				removeEventListener(Event.ADDED_TO_STAGE,addedToStageHandler);
 			Security.allowDomain('*');
@@ -87,7 +89,7 @@ package
 		}
 		
 		/**
-		 * 接口方法
+		 * 接口方法 
 		 */
 		public function action():void
 		{
@@ -134,7 +136,7 @@ package
 			//加载开始
 			swf = LoaderMax.getContent("startSWF").rawContent;		//取得真实内容
 			addChild(swf as DisplayObject);
-			//监听事件
+			//监听事件 
 			stage.addEventListener(GameEvent.GameStart, GameStartEvt);
         }
 		
@@ -148,13 +150,17 @@ package
 		
 		
 		private function addMask():void{
-			maskMc = new Mask();
-			addChild(maskMc);
+			if(!maskMc){
+				maskMc = new Mask();
+				addChild(maskMc);
+			}
 		}
 		
 		private function remvoeMask():void{
-			removeChild(maskMc);
-			maskMc = null;
+			if(maskMc){
+				removeChild(maskMc);
+				maskMc = null;
+			}
 		}
 		
 		/**
@@ -175,31 +181,30 @@ package
 		}
 		
 		private function queue2CompleteHandler(event:LoaderEvent):void {
-			//开始time 
+			//开始time
 			FrameTimer.init();
 			FrameTimer.add(this);
 			enterFRAME = new Dictionary(true);
 			trace("queue2 loaded!"); 
 			loader = new Loader();
-			swfBg = loader.getPartBackground()
+			swfBg = loader.getPartBackground();
+			swfBg.x = -349.5;
+			swfBg.y = -862.5;
 			//加载场景2
-			swfBg.y = -610;
 			addChild(swfBg);
 //			//背景动画  
-			TweenMax.to(swfBg, 1, {y:0, ease:Linear.easeNone,onComplete:function(){
-				people = loader.getPeople()
-				people.gotoAndStop('run');
-				people.x = Data.PEOPLEPOS.x;
-				people.y = Data.PEOPLEPOS.y;
-				//加载场景元素   
-				addChild(people);
-				//背景移动   
-				addEnterFrame('bgMove',bgMove);
-			}});
+			people = loader.getPeople()
+			people.gotoAndStop('run');
+			people.x = Data.PEOPLEPOS.x;
+			people.y = Data.PEOPLEPOS.y;
+			//加载场景元素   
+			addChild(people);
+			//背景移动   
+			addEnterFrame('bgMove',bgMove);
 		}
 		
 		/** 
-		 * 背景移动  
+		 * 背景移动   
 		 */
 		private function bgMove():void{
 			swfBg.x -= SPEED;
@@ -211,19 +216,15 @@ package
 				//换人 先获取当前人物的位置信息 
 				people.gotoAndStop('sanding');
 				//监听浮层选择事件
-				GameEvent.stage.addEventListener(GameEvent.GamePropsPopClose, propsPopCloseEvt);
+				GameEvent.stage.addEventListener(GameEvent.GamePropsPopClose,propsPopCloseEvt);
+				
 				addMask();
-				//1秒后弹窗
-//				popStart = loader.getPopStart();
-//				popStart.x = 250;
-//				popStart.y = 140;
-//				popStart.scaleX = 0.5;
-//				popStart.scaleY = 0.5;
 				propsPop  = loader.getPropsPop();
 				propsPop.y = -600;
 				//加载场景元素  
 				addChild(propsPop);
-				TweenMax.to(propsPop, 1, {y:0, ease:Bounce.easeOut});
+				//动画效果
+				TweenMax.to(propsPop, .5, {y:0, delay: .5,ease:Back.easeOut});
 			}
 		}
 		
@@ -236,25 +237,31 @@ package
 				removeChild(roadBg);
 				roadBg = null;
 			}
-			//加载下一个场景的道路
-			roadBg = loader.getSceneBackground();
-			addChild(roadBg);
-//			addChildAt(roadBg,0);
+			
 			//加载站立裸体人
 			people.gotoAndStop('sanding');
 			people.x = Data.PEOPLEPOS.x;
 			people.y = Data.PEOPLEPOS.y;
-			//加载游戏提示
-			if(firstPlay){
-				popStart = loader.getSceenGameTips();
-				popStart.x = 400;
-				popStart.y = 300;
-				addChild(popStart);
-				//添加开始事件
-				popStart.btnGamePlay.addEventListener(MouseEvent.CLICK, GamePlayEvt);
-			}else{
-				GamePlayEvt();
-			}
+			//小动画
+			TweenMax.to(propsPop,.5,{y:-600, ease:Back.easeIn,onComplete:function(){
+				
+				removeChild(propsPop);
+				propsPop = null;
+				//加载下一个场景的道路
+				roadBg = loader.getSceneBackground();
+				addChild(roadBg);
+				//移除遮罩
+				remvoeMask();
+				//加载游戏提示
+				if(firstPlay){
+					popStart = loader.getSceenGameTips();
+					addChild(popStart);
+					//添加开始事件
+					popStart.btnGamePlay.addEventListener(MouseEvent.CLICK, GamePlayEvt);
+				}else{
+					GamePlayEvt();
+				}
+			}})
 			
 		}
 		
@@ -266,14 +273,11 @@ package
 				popStart.btnGamePlay.removeEventListener(MouseEvent.CLICK, GamePlayEvt);
 				removeChild(popStart);
 				popStart = null;
-				//取消第一次游戏提示 
+				//取消第一次游戏提示  
 				firstPlay = false;
 			}
-			
 			//加载跑步的人  
 			people.gotoAndStop('run');
-//			people.mcRun.visible = false;
-//			people.test123.visible = true;
 			loader.setPeopleProps();
 			//设置最顶层
 			setChildIndex(people,numChildren-1);
@@ -281,12 +285,15 @@ package
 			if(!scoreMc){
 				scoreMc = loader.getScore();
 				scoreMc.x = 800;
-				scoreMc.y = 100;
+				scoreMc.y = 20;
 				addChild(scoreMc);
+			}else{
+				//提升记分牌 
+				scoreMc.reset();
 			}
 			//生成障碍物   
 			createProps();
-			//2秒后移除楼梯背景及站立的人 
+			//2秒后移除楼梯背景及站立的人  
 			if(swfBg){
 				TweenMax.delayedCall(2,function(){
 					removeChild(swfBg);
@@ -295,12 +302,43 @@ package
 			}
 			
 			roadBg.move();
+			isOkJump = true;
 			//监听事件
 			GameEvent.stage.addEventListener(GameEvent.GameSceneOver, GameSceneOverEvt);	
 			GameEvent.stage.addEventListener(GameEvent.GameHitBarrier,GameHitBarrierEvt);
 			GameEvent.stage.addEventListener(GameEvent.GameHitProps,GameHitPropsEvt);
 			GameEvent.stage.addEventListener(GameEvent.GamePartOver,GamePartOverEvt);
 			GameEvent.stage.addEventListener(GameEvent.GameWin,GameWinEvt);
+			//键盘事件
+			stage.addEventListener(KeyboardEvent.KEY_DOWN,keyJumpEvt);
+			stage.addEventListener(MouseEvent.CLICK,clickJumpEvt);
+		}
+		
+		private function keyJumpEvt(e:KeyboardEvent){
+			//trace(e.keyCode,'e.keyCode')
+			//按空格 并且可以跳
+			if(e.keyCode == Keyboard.SPACE && isOkJump){
+				_jumpEffect();
+				return;
+			}
+		}
+		
+		private function clickJumpEvt(e:MouseEvent){
+			if(isOkJump){
+				_jumpEffect();
+			}
+		}
+		
+		/**
+		 * 跳起效果
+		 */
+		private function _jumpEffect():void{
+			isOkJump = false;
+			people.y = Data.JUMPY;
+			TweenMax.delayedCall(.3,function(){
+				people.y = Data.PEOPLEPOS.y;
+				isOkJump = true;
+			})
 		}
 		
 		/**
@@ -358,8 +396,8 @@ package
 		 */
 		private function GameHitBarrierEvt(e:GameEvent):void{
 			people.mcRun.tou.visible = true;
-			people.mcRun.tou2.visible = false;
-			scoreMc.addScore();  
+			people.mcRun.tou2.visible = false; 
+			scoreMc.addScore();
 		}
 		
 		/**
@@ -377,16 +415,17 @@ package
 		private function peopleRunEnd():void{
 			people.x += SPEED;
 			//最终停止跑步
-			if(people.x >= 800){
+			if(people.x >= 550){
 				GameEvent.partOver();
 			}
 		}
 		
 		/**
-		 * 大便及道具停止  
+		 * 大便及道具停止
 		 */
 		private function GameSceneOverEvt(e:GameEvent):void{
-			addEnterFrame('peopleRunEnd',peopleRunEnd)
+			addEnterFrame('peopleRunEnd',peopleRunEnd);
+			isOkJump = false;
 		}
 		
 		/**
@@ -425,12 +464,20 @@ package
 			
 		}
 		
+		private function resetScore():void{
+			if(scoreMc){
+//				setChildIndex(scoreMc,numChildren - 1);
+				scoreMc.reset();
+			}
+		}
+		
 		/**
 		 * reset
 		 */
 		private function reset():void{
 			//初始化
 			firstPlay = true;
+			isOkJump = true;
 			//初始化道具数组
 			barrierArr = [];
 			propsArr = [];

@@ -68,9 +68,11 @@ package com.paipai
 		/**
 		 * 关闭浮层
 		 */
-		public static function propsPopClose(obj:Object):void{
+		public static function propsPopClose(obj:Object = null):void{
 			GameEvent.stage.dispatchEvent( new GameEvent(GameEvent.GamePropsPopClose,obj) );
 		}
+		
+		
 		
 		
 		

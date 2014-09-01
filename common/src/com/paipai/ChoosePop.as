@@ -6,7 +6,7 @@ package com.paipai
 	import com.paipai.Loader;
 	
 	/**
-	 * 选择浮层
+	 * 选择浮层 
 	 */
 	public class ChoosePop extends MovieClip
 	{

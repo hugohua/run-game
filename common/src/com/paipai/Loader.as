@@ -50,8 +50,10 @@ package com.paipai
 		/**
 		 * 加载场景2
 		 */
-		public function getPartBackground():DisplayObject{
-			return LoaderMax.getContent(type + "Part1SWF").rawContent;
+		public function getPartBackground():MovieClip{
+			TempClass =  swfScene.getClass("partBackground");
+			mc = new TempClass();
+			return mc;
 		}
 		
 		/**
@@ -78,7 +80,23 @@ package com.paipai
 		 * 加载跑步场景swf
 		 */
 		public function getSceneBackground():MovieClip{
-			mc = new SceneBackground1();
+			var data:Object = GameModel.getInstance().gameSocre;
+			var mc:MovieClip;
+			switch(data.topsSelect){
+				case "mcTopsp2":
+					mc = new SceneBackground2();
+					break;
+				case "mcTopsp3":
+					mc = new SceneBackground3();
+					break;
+				case "mcTopsp4":
+					mc = new SceneBackground4();
+					break;
+				default:
+					mc = new SceneBackground1();
+					break;
+				
+			}
 			return mc;
 		}
 		
@@ -122,7 +140,7 @@ package com.paipai
 				mc.gotoAndStop("csmall");
 				pos = popPostionSmall;
 			}else{
-				mc.gotoAndStop("sbig");
+				mc.gotoAndStop("cBig");
 				pos = popPostionBig;
 			}
 			for(var i:int = 0,len:int = tops.length;i<len;i++){
@@ -141,7 +159,7 @@ package com.paipai
 		}
 		
 		/**
-		 * 获取弹窗
+		 * 获取鞋子弹窗
 		 */
 		public function getShoePop():MovieClip{
 			//标签
@@ -154,7 +172,7 @@ package com.paipai
 				mc.gotoAndStop("csmall");
 				pos = popPostionSmall;
 			}else{
-				mc.gotoAndStop("sbig");
+				mc.gotoAndStop("cBig");
 				pos = popPostionBig;
 			}
 			for(var i:int = 0,len:int = shoe.length;i<len;i++){
@@ -165,7 +183,39 @@ package com.paipai
 				_shoeMc.addEventListener(MouseEvent.CLICK, clickEvent);
 				//穿上的鞋子 实例名称
 				_shoeMc.name = "mcShoe"+shoe[i];
-//				trace(_shoeMc.name)
+				//				trace(_shoeMc.name)
+				btnArr.push(_shoeMc);
+				mc.addChild(_shoeMc);
+			}
+			return mc;
+		}
+		
+		/**
+		 * 获取鞋子弹窗
+		 */
+		public function getLiftPop():MovieClip{
+			//标签
+			var lift:Array = GameModel.getInstance().getLift();
+			var pos:Array;
+			TempClass =  swfPeople.getClass("ChoosePop");
+			mc = new TempClass();
+			popMc = mc;
+			if(lift.length <=2){
+				mc.gotoAndStop("csmall");
+				pos = popPostionSmall;
+			}else{
+				mc.gotoAndStop("cBig");
+				pos = popPostionBig;
+			}
+			for(var i:int = 0,len:int = lift.length;i<len;i++){
+				TempClass = swfPeople.getClass('btna' + lift[i]);
+				var _shoeMc:SimpleButton = new TempClass();
+				_shoeMc.x = pos[i].x;
+				_shoeMc.y = pos[i].y;
+				_shoeMc.addEventListener(MouseEvent.CLICK, clickEvent);
+				//穿上的鞋子 实例名称
+				_shoeMc.name = "mcLift"+lift[i];
+				//				trace(_shoeMc.name)
 				btnArr.push(_shoeMc);
 				mc.addChild(_shoeMc);
 			}
@@ -183,7 +233,7 @@ package com.paipai
 			}else if(scene == 2){
 				mc = getShoePop();
 			}else if(scene == 3){
-				mc
+				mc = getLiftPop();
 			}
 			return mc;
 		}
@@ -200,9 +250,8 @@ package com.paipai
 			}else if(scene == 2){
 				GameModel.getInstance().setShoeSelect(name);
 			}else if(scene == 3){
-				
+				GameModel.getInstance().setLiftSelect(name);
 			}
-//			trace(GameModel.getInstance().gameSocre.topsSelect,name,scene)
 		}
 		
 		/**
@@ -228,7 +277,7 @@ package com.paipai
 			}else if(scene == 2){
 				mc = new ShoePop();
 			}else if(scene == 3){
-				mc
+				mc = new LifePop();
 			}
 			return mc;
 		}
