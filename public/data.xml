@@ -7,13 +7,13 @@
 <LoaderMax name="boyqueue" load="false">
     <SWFLoader name="boySWF" url="boy.swf" autoPlay="false"/>
     <SWFLoader name="boyPart1SWF" url="part1.swf" autoPlay="false"/>
-    <SWFLoader name="boySceneSWF" url="scene1.swf" autoPlay="false"/>
+    <SWFLoader name="boySceneSWF" url="scene.swf" autoPlay="false"/>
 </LoaderMax>
 
 <LoaderMax name="girlqueue" load="false">
     <SWFLoader name="girlSWF" url="girl.swf" autoPlay="false"/>
     <SWFLoader name="girlPart1SWF" url="part1.swf" autoPlay="false"/>
-    <SWFLoader name="girlSceneSWF" url="scene1.swf" autoPlay="false"/>
+    <SWFLoader name="girlSceneSWF" url="scene.swf" autoPlay="false"/>
 </LoaderMax>
 
 </data>

@@ -1,6 +1,7 @@
 package com.paipai
 {
 	import flash.display.MovieClip;
+	import com.paipai.GameEvent;
 	
 	/**
 	 * 记分牌

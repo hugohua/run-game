@@ -5,7 +5,7 @@
 	import flash.events.MouseEvent;
 	import flash.system.Security;
 	import com.paipai.GameEvent;
-	import com.paipai.GameModel;
+	import com.paipai.GameModel; 
 	
 	public class start extends Sprite
 	{

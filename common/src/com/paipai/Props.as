@@ -1,28 +1,25 @@
 package com.paipai
 {
-	import com.paipai.Data;
-	
 	import flash.display.MovieClip;
 	
-	public class Barrier extends MovieClip implements IFrame
+	/**
+	 * 游戏道具超类
+	 */
+	public class Props extends MovieClip implements IFrame
 	{
 		private static const SPEED:Number = Data.SPEED;
-		private static const YPOS:Number = 400;
+		private var pos:Array = [200,400];
 		
-		public function Barrier(x:Number)
+		public function Props(x:Number)
 		{
 			//TODO: implement function
 			super();
 			this.x  = x;
-			this.y = YPOS;
+			this.y = Utils.getRandom(pos);
+			this.gotoAndStop(1);
 			FrameTimer.add(this); 
 			//监听over事件
 			GameEvent.stage.addEventListener(GameEvent.GameSceneOver, GameSceneOverEvt);
-		}
-		
-		
-		private function GameSceneOverEvt(e:GameEvent):void{
-			FrameTimer.remove(this);
 		}
 		
 		public function action():void
@@ -31,8 +28,19 @@ package com.paipai
 			this.x -= SPEED;
 			//碰撞检测 碰撞到人了
 			if(HitTest.complexHitTestObject(this,GameModel.getInstance().hit)){
-				GameEvent.hitBarrier({hit:this});
+				GameEvent.hitProps({hit:this});
 			}
+		}
+		
+		private function GameSceneOverEvt(e:GameEvent):void{
+			stops();
+		}
+		
+		/**
+		 * 停止
+		 */
+		public function stops():void{
+			FrameTimer.remove(this);
 		}
 		
 		/**
@@ -43,7 +51,5 @@ package com.paipai
 			FrameTimer.remove(this);
 			parent.removeChild(this);
 		}
-		
-		
 	}
 }

@@ -19,7 +19,7 @@
 		<link>
 			<name>bin-debug</name>
 			<type>2</type>
-			<location>E:/ecc_ecd_rep/labs_proj/trunk/run_game/public</location>
+			<location>E:/ecc_ecd_rep/labs_proj/trunk/run-game/public</location>
 		</link>
 	</linkedResources>
 </projectDescription>

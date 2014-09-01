@@ -15,17 +15,18 @@ package com.paipai
 			this.x  = 0; 
 			this.y = 0;
 			distance = 2500 - this.width;
-			
+			//设置关卡场景
+			this.gotoAndStop(GameModel.getInstance().scene);
 		}
 		
 		public function action():void
 		{
 			this.x -= SPEED;
-			trace(this.x,distance);
+//			trace(this.x,distance);
 			//停止
 			if(this.x <= distance){
 				FrameTimer.remove(this);
-				stage.dispatchEvent( new GameEvent(GameEvent.GameSceneOver,{scene:"p1"}) );
+				GameEvent.sceneOver({scene:"p1"});
 			}
 		}
 		

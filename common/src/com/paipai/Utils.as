@@ -1,12 +1,14 @@
 package com.paipai
 {
+	import com.paipai.GameModel;
+	
 	import flash.display.DisplayObject;
 	import flash.display.SimpleButton;
+	import flash.events.MouseEvent;
 
 	public class Utils
 	{
-		private static var buttonState:Boolean;
-		
+		private static var radioButton:SimpleButton;
 		/**
 		 * 随机生成坐标点
 		 */
@@ -31,12 +33,27 @@ package com.paipai
 			var currDown:DisplayObject = button.downState;
 			button.downState = button.upState;
 			button.upState = currDown;
-			buttonState = !buttonState;
-			if(buttonState){
-				trace(1);
-			}else{
-				trace(2);
+		}
+		
+		/**
+		 * 单选按钮
+		 */
+		public static function radioEffect(target:SimpleButton):void{
+//			var target:SimpleButton = e.target as SimpleButton;
+			if (radioButton != target) {
+				Utils.buttonToggle(target);
+				if (radioButton)
+					Utils.buttonToggle(radioButton);
+				radioButton = (target);
 			}
+		}
+		
+		/**
+		 * 数组随机取值
+		 */
+		public static function getRandom(arr:Array):*{
+			var m:int = Math.round((arr.length - 1) * Math.random());
+			return arr[m];
 		}
 	}
 }
