@@ -8,7 +8,7 @@ package com.paipai
 		}
 		
 		override protected function setData(name:String):void{
-			GameModel.getInstance().setLift(name);
+			GameModel.getInstance().setLife(name);
 		}
 	}
 }

@@ -7,7 +7,8 @@ package com.paipai
 	public class SceneBackground extends MovieClip implements IFrame
 	{
 		private static const SPEED:Number = Data.SPEED;
-		private var distance:Number;
+		private static const DISTANCE:Number = Data.DISTANCE;
+		public var mcEnd:MovieClip;
 		//循环次数
 //		private static const LOOP:int = Data.LOOP;
 		
@@ -15,16 +16,17 @@ package com.paipai
 		{
 			super();
 			this.x  = -250; 
-			distance = -7200; 
 			//设置关卡场景
 			this.gotoAndStop(GameModel.getInstance().scene);
+//			trace(this.getChildByName('mcEnd').y,"=12")
+//			this.getChildByName('mcEnd').y = Math.abs(DISTANCE) - 500;		//终点距离
 		}
 		
 		public function action():void
 		{
 			this.x -= SPEED;
 			//停止
-			if(this.x <= distance){
+			if(this.x <= DISTANCE){
 				FrameTimer.remove(this);
 				GameEvent.sceneOver({scene:"p1"});
 			}

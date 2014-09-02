@@ -7,7 +7,7 @@ package com.paipai
 	public class Barrier extends MovieClip implements IFrame
 	{
 		private static const SPEED:Number = Data.SPEED;
-		private static const YPOS:Number = 400;
+		private static const YPOS:Number = 500;
 		private var isHit:Boolean;		//只能碰撞一次
 		
 		public function Barrier(x:Number)

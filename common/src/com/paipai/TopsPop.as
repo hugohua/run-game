@@ -7,7 +7,7 @@ package com.paipai
 		 */
 		public function TopsPop()
 		{
-			super();
+			super(); 
 		}
 		
 		/**

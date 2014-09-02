@@ -9,6 +9,7 @@ package
 	import com.greensock.loading.SWFLoader;
 	import com.greensock.loading.XMLLoader;
 	import com.greensock.loading.display.ContentDisplay;
+	import com.greensock.plugins.BlurFilterPlugin;
 	import com.greensock.plugins.TransformAroundCenterPlugin;
 	import com.greensock.plugins.TweenPlugin;
 	import com.paipai.Barrier;
@@ -46,7 +47,6 @@ package
 		
 		private var swf:Object;										//通用swf对象  
 		
-//		private var swfRoadBg:SWFLoader;							//道路Background
 		private var swfBg:MovieClip;							//背景swf
 		private var enterFRAME:Dictionary;
 		private var people:MovieClip;								//用户
@@ -54,6 +54,7 @@ package
 		private var propsPop:MovieClip;								//物品穿戴选择
 		private var popChoose:MovieClip;
 		private var maskMc:MovieClip;
+		private var starMc:MovieClip;
 		
 		private var roadBg:MovieClip;								//用户
 		private var tempArr:Array;									//
@@ -84,7 +85,7 @@ package
 			if(hasEventListener(Event.ADDED_TO_STAGE))
 				removeEventListener(Event.ADDED_TO_STAGE,addedToStageHandler);
 			Security.allowDomain('*');
-			TweenPlugin.activate([TransformAroundCenterPlugin]);
+			TweenPlugin.activate([BlurFilterPlugin]);
 			init();
 		}
 		
@@ -100,7 +101,7 @@ package
 		}
 		
 		/**
-		 * 添加字典到循环体内 
+		 * 添加字典到循环体内
 		 */
 		private function addEnterFrame(key:Object,fun:Function):void{
 			if(!enterFRAME.hasOwnProperty(key)){
@@ -123,7 +124,6 @@ package
 		private function init():void{
 			
 			reset();
-			
 			LoaderMax.activate([SWFLoader,ImageLoader]);	//引入swfloader类 
 			xmlloader = new XMLLoader('data.xml',{name:"xmlDoc", onComplete:completeHandler,onError:errorHandler,onProgress:progressHandler});
 			xmlloader.load();
@@ -148,15 +148,37 @@ package
 			trace("progress: " + event.target.progress);
 		}
 		
+		/**
+		 * reset
+		 */
+		private function reset():void{
+			//初始化
+			firstPlay = true;
+			isOkJump = true;
+			//初始化道具数组
+			barrierArr = [];
+			propsArr = [];
+			
+			//事件绑定
+			//监听事件 
+			GameEvent.stage.addEventListener(GameEvent.GameSceneOver, GameSceneOverEvt);	
+			GameEvent.stage.addEventListener(GameEvent.GameHitBarrier,GameHitBarrierEvt);
+			GameEvent.stage.addEventListener(GameEvent.GameHitProps,GameHitPropsEvt);
+			GameEvent.stage.addEventListener(GameEvent.GamePartOver,GamePartOverEvt);
+			GameEvent.stage.addEventListener(GameEvent.GameWin,GameWinEvt);
+			
+		}
 		
 		private function addMask():void{
 			if(!maskMc){
 				maskMc = new Mask();
 				addChild(maskMc);
+			}else{
+				setChildIndex(maskMc,numChildren-1);
 			}
 		}
 		
-		private function remvoeMask():void{
+		private function removeMask():void{
 			if(maskMc){
 				removeChild(maskMc);
 				maskMc = null;
@@ -177,22 +199,23 @@ package
 			var queue2:LoaderMax = LoaderMax.getLoader(type + "queue");  
 			queue2.addEventListener(LoaderEvent.COMPLETE, queue2CompleteHandler); 
 			queue2.load(); 
-			
 		}
 		
-		private function queue2CompleteHandler(event:LoaderEvent):void {
-			//开始time
+		private function queue2CompleteHandler(event:LoaderEvent = null ):void {
+			//开始time 
 			FrameTimer.init();
 			FrameTimer.add(this);
 			enterFRAME = new Dictionary(true);
 			trace("queue2 loaded!"); 
-			loader = new Loader();
+			if(!loader){
+				loader = new Loader();
+			}
 			swfBg = loader.getPartBackground();
 			swfBg.x = -349.5;
 			swfBg.y = -862.5;
-			//加载场景2
+			//加载场景2 
 			addChild(swfBg);
-//			//背景动画  
+			//			//背景动画  
 			people = loader.getPeople()
 			people.gotoAndStop('run');
 			people.x = Data.PEOPLEPOS.x;
@@ -202,6 +225,7 @@ package
 			//背景移动   
 			addEnterFrame('bgMove',bgMove);
 		}
+		
 		
 		/** 
 		 * 背景移动   
@@ -213,23 +237,29 @@ package
 			//该停止了
 			if(swfBg.x < BGMOVEX){
 				removeEnterFrame("bgMove");
-				//换人 先获取当前人物的位置信息 
-				people.gotoAndStop('sanding');
-				//监听浮层选择事件
-				GameEvent.stage.addEventListener(GameEvent.GamePropsPopClose,propsPopCloseEvt);
-				
-				addMask();
-				propsPop  = loader.getPropsPop();
-				propsPop.y = -600;
-				//加载场景元素  
-				addChild(propsPop);
-				//动画效果
-				TweenMax.to(propsPop, .5, {y:0, delay: .5,ease:Back.easeOut});
+				gameBegin();
 			}
 		}
 		
 		/**
-		 * 浮层关闭事件
+		 * 游戏开始
+		 */
+		private function gameBegin():void{
+			//监听浮层选择事件
+			GameEvent.stage.addEventListener(GameEvent.GamePropsPopClose,propsPopCloseEvt);
+			//换人 先获取当前人物的位置信息 
+			people.gotoAndStop('sanding');
+			addMask();
+			propsPop  = loader.getPropsPop();
+			propsPop.y = -600;
+			//加载场景元素  
+			addChild(propsPop);
+			//动画效果
+			TweenMax.to(propsPop, .5, {y:0, delay: .5,ease:Back.easeOut});
+		}
+		
+		/**
+		 * 浮层关闭事件 进入跑步场景 
 		 */
 		private function propsPopCloseEvt(e:GameEvent):void{
 			//先移除之前的道路
@@ -238,20 +268,26 @@ package
 				roadBg = null;
 			}
 			
+			//加载下一个场景的道路  
+			roadBg = loader.getSceneBackground();
+			addChild(roadBg);
+			
 			//加载站立裸体人
 			people.gotoAndStop('sanding');
-			people.x = Data.PEOPLEPOS.x;
-			people.y = Data.PEOPLEPOS.y;
-			//小动画
+			addMask();
+			//继续保持浮层的最高层位置
+			setChildIndex(propsPop,numChildren-1);
+			//小动画 
 			TweenMax.to(propsPop,.5,{y:-600, ease:Back.easeIn,onComplete:function(){
-				
+				//还原位置
+				people.x = Data.PEOPLEPOS.x;
+				people.y = Data.PEOPLEPOS.y;
+				 
 				removeChild(propsPop);
 				propsPop = null;
-				//加载下一个场景的道路
-				roadBg = loader.getSceneBackground();
-				addChild(roadBg);
-				//移除遮罩
-				remvoeMask();
+				
+				//移除遮罩  
+				removeMask();
 				//加载游戏提示
 				if(firstPlay){
 					popStart = loader.getSceenGameTips();
@@ -266,7 +302,7 @@ package
 		}
 		
 		/**
-		 * 开始游戏
+		 * 开始游戏 场景开始
 		 */
 		private function GamePlayEvt(e:MouseEvent = null):void{
 			if(firstPlay){
@@ -278,6 +314,7 @@ package
 			}
 			//加载跑步的人  
 			people.gotoAndStop('run');
+			//穿上装备
 			loader.setPeopleProps();
 			//设置最顶层
 			setChildIndex(people,numChildren-1);
@@ -291,31 +328,25 @@ package
 				//提升记分牌 
 				scoreMc.reset();
 			}
-			//生成障碍物   
+			//生成障碍物     
 			createProps();
-			//2秒后移除楼梯背景及站立的人  
+			createBarrs();
+			//2秒后移除楼梯背景及站立的人    
 			if(swfBg){
 				TweenMax.delayedCall(2,function(){
 					removeChild(swfBg);
 					swfBg = null;
 				})
 			}
-			
+			 
 			roadBg.move();
-			isOkJump = true;
-			//监听事件
-			GameEvent.stage.addEventListener(GameEvent.GameSceneOver, GameSceneOverEvt);	
-			GameEvent.stage.addEventListener(GameEvent.GameHitBarrier,GameHitBarrierEvt);
-			GameEvent.stage.addEventListener(GameEvent.GameHitProps,GameHitPropsEvt);
-			GameEvent.stage.addEventListener(GameEvent.GamePartOver,GamePartOverEvt);
-			GameEvent.stage.addEventListener(GameEvent.GameWin,GameWinEvt);
 			//键盘事件
 			stage.addEventListener(KeyboardEvent.KEY_DOWN,keyJumpEvt);
 			stage.addEventListener(MouseEvent.CLICK,clickJumpEvt);
+			isOkJump = true;
 		}
 		
 		private function keyJumpEvt(e:KeyboardEvent){
-			//trace(e.keyCode,'e.keyCode')
 			//按空格 并且可以跳
 			if(e.keyCode == Keyboard.SPACE && isOkJump){
 				_jumpEffect();
@@ -342,10 +373,11 @@ package
 		}
 		
 		/**
-		 * 生成障碍物
+		 * 生成障碍物 
 		 */
 		private function createBarrs():void{
-			var babaXArr:Array = Utils.createRandom(11,800,1500);				//大便数组
+			var scene:int = GameModel.getInstance().scene;
+			var babaXArr:Array = Utils.createRandom(1 + scene);				//大便数组 
 			var babaXLen:int = babaXArr.length;
 			var barrLen:int = barrierArr.length;					//存放大便对象的数组
 			//先清除之前的道具
@@ -357,7 +389,7 @@ package
 				}
 				barrierArr = [];
 			}
-			//生成大便  
+			//生成大便 
 			for (var m=0; m< babaXLen; m++){
 				barrier = new Barrier(babaXArr[m]);
 				addChild(barrier);
@@ -367,13 +399,13 @@ package
 		
 		
 		/**
-		 * 生成道具   
+		 * 生成道具 
 		 */
 		private function createProps():void{
-			
-			var propXArr:Array = Utils.createRandom(11,100,400);		//道具数组
-			var propXLen:int = propXArr.length;							//道具数组长度
-			var propsLen:int = propsArr.length;							//存放道具对象的数组 
+			var scene:int = GameModel.getInstance().scene;
+			var propXArr:Array = Utils.createRandom(29 - scene);				//道具数组 
+			var propXLen:int = propXArr.length;									//道具数组长度
+			var propsLen:int = propsArr.length;									//存放道具对象的数组 
 			if(propsLen){
 				for(var k = 0;k < propsLen; k++){
 					props = propsArr[k];
@@ -383,7 +415,7 @@ package
 				propsArr = [];
 			}
 			
-			//生成道具  
+			//生成道具 
 			for (var j=0; j< propXLen; j++){
 				props = PropsUtils.createProps(propXArr[j]);
 				addChild(props);
@@ -397,7 +429,10 @@ package
 		private function GameHitBarrierEvt(e:GameEvent):void{
 			people.mcRun.tou.visible = true;
 			people.mcRun.tou2.visible = false; 
-			scoreMc.addScore();
+			scoreMc.removeScore();
+			//模糊效果  
+			TweenMax.to(e.data.hit, 0.5, {alpha:0,delay:0.2,blurFilter:{blurX:20, blurY:20, quality:3}});
+			//
 		}
 		
 		/**
@@ -407,14 +442,24 @@ package
 			people.mcRun.tou.visible = false;
 			people.mcRun.tou2.visible = true;
 			scoreMc.addScore();
+			starMc = loader.getStar(e.data.hit.x,e.data.hit.y);
+			addChild(starMc);
+			//闪一下就移除
+			TweenMax.delayedCall(0.7,function(){
+				if(starMc){
+					removeChild(starMc)
+					starMc = null;
+				}
+			});
+			TweenMax.to(e.data.hit, 0.5, {alpha:0,delay:0.2,blurFilter:{blurX:20, blurY:20, quality:3}});
 		}
 		
 		/**
-		 * 最后的一段跑步  
+		 * 最后的一段跑步
 		 */
 		private function peopleRunEnd():void{
 			people.x += SPEED;
-			//最终停止跑步
+			//最终停止跑步 
 			if(people.x >= 550){
 				GameEvent.partOver();
 			}
@@ -424,6 +469,7 @@ package
 		 * 大便及道具停止
 		 */
 		private function GameSceneOverEvt(e:GameEvent):void{
+			trace("GameSceneOverEvt")
 			addEnterFrame('peopleRunEnd',peopleRunEnd);
 			isOkJump = false;
 		}
@@ -434,60 +480,87 @@ package
 		private function GamePartOverEvt(e:GameEvent):void{
 			removeEnterFrame('peopleRunEnd');
 			people.gotoAndStop('sanding'); 
+			addMask();
 			//弹出界面选择 
 			popChoose = loader.getPopChoose();
 			addChild(popChoose); 
-			//添加事件
+			popChoose.y = -600;
+			TweenMax.to(popChoose, .5, {y:0, delay: .5,ease:Back.easeOut});
+			//添加事件 
 			popChoose.btnGo.addEventListener(MouseEvent.CLICK, nextPartEvt);
 			//关卡数 加1
 			GameModel.getInstance().scene = 1; 
+			//键盘事件
+			stage.removeEventListener(KeyboardEvent.KEY_DOWN,keyJumpEvt);
+			stage.removeEventListener(MouseEvent.CLICK,clickJumpEvt);
 		}
 		
 		/**
-		 * 下一个关卡  
+		 * 下一个关卡
 		 */
 		private function nextPartEvt(e:MouseEvent):void{
-			popChoose.btnGo.removeEventListener(MouseEvent.CLICK, nextPartEvt);
-			loader.removePropsEvent();
-			removeChild(popChoose);
-			popChoose = null;
-			
-			
-			if(GameModel.getInstance().scene < Data.MAXSCENE ){
-				//加载下一个关卡的物品选择  
-				propsPop  = loader.getPropsPop();
-				//加载场景元素   
-				addChild(propsPop);
-			}else{
-				GameEvent.win();
-			}
+			trace("nextPartEvt",popChoose,popChoose.y,GameModel.getInstance().scene)
+			TweenMax.to(popChoose,.5,{y:0, ease:Back.easeIn,onComplete:function(){
+				removeMask();
+				popChoose.btnGo.removeEventListener(MouseEvent.CLICK, nextPartEvt);
+				loader.removePropsEvent();
+				removeChild(popChoose);
+				popChoose = null;
+				
+				
+				if(GameModel.getInstance().scene < Data.MAXSCENE ){
+					trace("yes nextPartEvt");
+					//加载下一个关卡的物品选择 
+					propsPop  = loader.getPropsPop();
+					//加载场景元素  
+					addChild(propsPop);
+				}else{
+					GameEvent.win();
+				}
+				
+			}})
 			
 		}
 		
+		/**
+		 * 重设记分牌
+		 */
 		private function resetScore():void{
 			if(scoreMc){
-//				setChildIndex(scoreMc,numChildren - 1);
 				scoreMc.reset();
 			}
 		}
 		
-		/**
-		 * reset
-		 */
-		private function reset():void{
-			//初始化
-			firstPlay = true;
-			isOkJump = true;
-			//初始化道具数组
-			barrierArr = [];
-			propsArr = [];
-		}
+		
 		
 		/** 
 		 * 游戏结束  弹出拍照浮层
 		 */
 		private function GameWinEvt(e:GameEvent):void{
 			trace("end");
+			FrameTimer.remove(this);
+			//取消事件
+			GameEvent.stage.removeEventListener(GameEvent.GameSceneOver, GameSceneOverEvt);	
+			GameEvent.stage.removeEventListener(GameEvent.GameHitBarrier,GameHitBarrierEvt);
+			GameEvent.stage.removeEventListener(GameEvent.GameHitProps,GameHitPropsEvt);
+			GameEvent.stage.removeEventListener(GameEvent.GamePartOver,GamePartOverEvt);
+			GameEvent.stage.removeEventListener(GameEvent.GameWin,GameWinEvt);
+			GameEvent.stage.removeEventListener(GameEvent.GamePropsPopClose,propsPopCloseEvt);
+			//键盘事件
+			stage.removeEventListener(KeyboardEvent.KEY_DOWN,keyJumpEvt);
+			stage.removeEventListener(MouseEvent.CLICK,clickJumpEvt);
+			
+			playAgain();
+		}
+		
+		/**
+		 * 再玩一次
+		 */
+		public function playAgain():void{
+			FrameTimer.add(this);
+			GameModel.getInstance().resetData();
+			reset();
+			gameBegin();
 		}
 		
 		

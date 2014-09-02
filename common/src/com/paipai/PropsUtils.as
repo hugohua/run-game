@@ -43,11 +43,11 @@ package com.paipai
 		/**
 		 * 创建鞋子
 		 */
-		public static function createLift(x:Number):MovieClip{
+		public static function createLife(x:Number):MovieClip{
 			//获取鞋子
-			var lift:Array = GameModel.getInstance().getLift();
-			var mc:MovieClip = new Shoe(x);
-			var label:String = Utils.getRandom(lift);
+			var life:Array = GameModel.getInstance().getLife();
+			var mc:MovieClip = new Life(x);
+			var label:String = Utils.getRandom(life);
 			mc.gotoAndStop(label);
 			return mc;
 		}
@@ -63,7 +63,7 @@ package com.paipai
 			}else if(scene == 2){
 				mc = PropsUtils.createShoe(x);
 			}else if(scene == 3){
-				mc = PropsUtils.createLift(x);
+				mc = PropsUtils.createLife(x);
 			}
 			return mc;
 		}

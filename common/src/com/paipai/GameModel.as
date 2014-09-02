@@ -7,30 +7,37 @@ package com.paipai
 	public class GameModel
 	{
 		/**
-		 * 数据默认值
+		 * 默认值
 		 */
-		private var data:Object = {
-			//上衣
-			tops:{
-//				p1:false,
-//				p2:false,
-//				p3:false,
-//				p4:false
-			},
+		private var defaultData:Object = {
+			tops:{p1:false,p2:false,p3:false,p4:false},
 			//鞋子
-			shoe:{
-				
-			},
+			shoe:{p1:false,p2:false,p3:false,p4:false},
 			//生活方式
-			lift:{
-				
-			},
+			life:{p1:false,p2:false,p3:false,p4:false},
 			//选择穿上的上衣
 			topsSelect:false,
 			//选择穿上的鞋子
 			shoeSelect:false,
 			//选择的生活方式
-			liftSelect:false
+			lifeSelect:false
+		}
+		/**
+		 * 数据默认值
+		 */
+		private var data:Object = {
+			//上衣
+			tops:{},
+			//鞋子
+			shoe:{},
+			//生活方式
+			life:{},
+			//选择穿上的上衣
+			topsSelect:false,
+			//选择穿上的鞋子
+			shoeSelect:false,
+			//选择的生活方式
+			lifeSelect:false
 		};
 		
 		//需要碰撞的people
@@ -39,16 +46,6 @@ package com.paipai
 		private static var _instance:GameModel;
 
 		private var sceneNum:int = 1;
-		
-		/**
-		 * 数据格式
-		 */
-//		var data = {
-//			type: boy or girl
-//			tops :[1,2,3],
-//			pants :[1,2,3],
-//			shoe:[1,2,3]
-//		}
 		
 		
 		public static function getInstance():GameModel {
@@ -126,10 +123,11 @@ package com.paipai
 		}
 		
 		/**
-		 * 鞋子
+		 * 生活小资
 		 */
-		public function setLift(name:String):void{
-			data.lift[name] = !data.lift[name];
+		public function setLife(name:String):void{
+			data.life[name] = !data.life[name];
+			trace(data.life.p1,name,'setLife')
 			setLos();
 		}
 		
@@ -162,14 +160,15 @@ package com.paipai
 		/**
 		 * 获取选中的生活方式 
 		 */
-		public function getLift():Array{
-			var lift:Array = [];
-			for(var i:String in data.lift){
-				if(data.shoe[i]){
-					lift.push(i);
+		public function getLife():Array{
+			var life:Array = [];
+			for(var i:String in data.life){
+				if(data.life[i]){
+					life.push(i);
 				}
 			}
-			return lift;
+//			trace(life,'==getLife')
+			return life;
 		}
 		
 		
@@ -216,18 +215,15 @@ package com.paipai
 		/**
 		 * 设置选择的生活方式
 		 */
-		public function setLiftSelect(lift:String):void{
-			data.liftSelect = lift;
+		public function setLifeSelect(life:String):void{
+			data.lifeSelect = life;
+			trace(data.lifeSelect,life,"setLifeSelect")
 		}
 		
-		
-		/**
-		 * 获取穿上的物品
-		 */
-//		public function getPropsData():Object{
-//			
-//		}
-		
+		public function resetData():void{
+			data = defaultData;
+			sceneNum = 1;
+		}
 		
 	}
 }

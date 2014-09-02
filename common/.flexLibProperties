@@ -6,6 +6,7 @@
     <classEntry path="com.paipai.SceneBackground2"/>
     <classEntry path="com.paipai.SceneBackground3"/>
     <classEntry path="com.paipai.SceneBackground4"/>
+    <classEntry path="com.paipai.Life"/>
   </includeClasses>
   <includeResources/>
   <namespaceManifests/>

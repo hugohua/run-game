@@ -1,19 +1,18 @@
 package com.paipai
 {
-	import com.greensock.TweenMax;
-	import com.greensock.easing.Linear;
-	import com.greensock.events.LoaderEvent;
+//	import com.greensock.TweenMax;
+//	import com.greensock.easing.Linear;
+//	import com.greensock.events.LoaderEvent;
 	import com.greensock.loading.LoaderMax;
 	import com.greensock.loading.SWFLoader;
 	import com.paipai.GameModel;
 	import com.paipai.SceneBackground1;
 	import com.paipai.Score;
 	
-	import flash.display.DisplayObject;
 	import flash.display.MovieClip;
 	import flash.display.SimpleButton;
 	import flash.events.MouseEvent;
-	import flash.utils.Dictionary;
+//	import flash.utils.Dictionary;
 	
 	public class Loader
 	{
@@ -39,12 +38,12 @@ package com.paipai
 			{x:556,y:303}
 		];
 		
-		
 		public function Loader()
 		{
 			type = GameModel.getInstance().type;
 			swfPeople = LoaderMax.getLoader(type + "SWF");				//取得swf
 			swfScene = LoaderMax.getLoader(type + "SceneSWF");
+			
 		}
 		
 		/**
@@ -195,29 +194,29 @@ package com.paipai
 		 */
 		public function getLiftPop():MovieClip{
 			//标签
-			var lift:Array = GameModel.getInstance().getLift();
+			var life:Array = GameModel.getInstance().getLife();
 			var pos:Array;
 			TempClass =  swfPeople.getClass("ChoosePop");
 			mc = new TempClass();
 			popMc = mc;
-			if(lift.length <=2){
+			if(life.length <=2){
 				mc.gotoAndStop("csmall");
 				pos = popPostionSmall;
 			}else{
 				mc.gotoAndStop("cBig");
 				pos = popPostionBig;
 			}
-			for(var i:int = 0,len:int = lift.length;i<len;i++){
-				TempClass = swfPeople.getClass('btna' + lift[i]);
-				var _shoeMc:SimpleButton = new TempClass();
-				_shoeMc.x = pos[i].x;
-				_shoeMc.y = pos[i].y;
-				_shoeMc.addEventListener(MouseEvent.CLICK, clickEvent);
+			for(var i:int = 0,len:int = life.length;i<len;i++){
+				TempClass = swfPeople.getClass('btna' + life[i]);
+				var _lifeMc:SimpleButton = new TempClass();
+				_lifeMc.x = pos[i].x;
+				_lifeMc.y = pos[i].y;
+				_lifeMc.addEventListener(MouseEvent.CLICK, clickEvent);
 				//穿上的鞋子 实例名称
-				_shoeMc.name = "mcLift"+lift[i];
-				//				trace(_shoeMc.name)
-				btnArr.push(_shoeMc);
-				mc.addChild(_shoeMc);
+				_lifeMc.name = "mcLife"+life[i];
+				trace(_lifeMc.name)
+				btnArr.push(_lifeMc);
+				mc.addChild(_lifeMc);
 			}
 			return mc;
 		}
@@ -250,7 +249,7 @@ package com.paipai
 			}else if(scene == 2){
 				GameModel.getInstance().setShoeSelect(name);
 			}else if(scene == 3){
-				GameModel.getInstance().setLiftSelect(name);
+				GameModel.getInstance().setLifeSelect(name);
 			}
 		}
 		
@@ -287,7 +286,7 @@ package com.paipai
 		 */
 		public function setPeopleProps():void{
 			var data:Object = GameModel.getInstance().gameSocre;
-			trace(data.shoeSelect,'data.topsSelect')
+			trace(data.lifeSelect,'data.lifeSelect')
 			var people:MovieClip = GameModel.getInstance().hit;
 			if(data.topsSelect){
 				people['a' + data.topsSelect].visible = true;
@@ -296,7 +295,18 @@ package com.paipai
 				people['a' + data.shoeSelect].visible = true;
 			}
 			
-		} 
+		};
+		
+		/**
+		 * 获取碰撞的星星
+		 */
+		public function getStar(x:Number,y:Number):MovieClip{
+			TempClass =  swfScene.getClass("Star");
+			mc = new TempClass();
+			mc.x = x;
+			mc.y = y;
+			return mc;
+		}
 		
 		
 		

@@ -1,7 +1,7 @@
 package com.paipai
 {
 	import flash.display.MovieClip;
-	import com.paipai.GameEvent;
+	import flash.text.TextField;
 	
 	/**
 	 * 记分牌
@@ -10,6 +10,7 @@ package com.paipai
 	{
 		private var totalLen:int;
 		private var isWin:int;		//0是输  3是赢
+		public var txtScore:TextField;
 		
 		
 		public function Score()
@@ -19,11 +20,12 @@ package com.paipai
 			this.y = 400;
 			this.gotoAndStop(1);
 			totalLen =  this.totalFrames;
+			txtScore = this.getChildByName('txtScore') as TextField;
 			isWin = 2;
 		}
 		
 		/**
-		 * 添加一分
+		 * 添加一分 
 		 */
 		public function addScore():int{
 			var cur:int = this.currentFrame;
@@ -33,15 +35,16 @@ package com.paipai
 				isWin = 0;
 			}
 			this.gotoAndStop(cur);
+			txtScore.text = cur.toString();
 			return isWin;
 		}
 		
 		/**
-		 * 减去一分
+		 * 减去2分
 		 */
 		public function removeScore():int{
 			var cur:int = this.currentFrame;
-			cur++;
+			cur-=2;
 			
 			if(cur <= 0){
 				cur = 0;
@@ -49,12 +52,14 @@ package com.paipai
 			}
 			
 			this.gotoAndStop(cur);
+			txtScore.text = cur.toString();
 			return isWin;
 		}
 		
 		public function reset():void{
 			parent.setChildIndex(this,parent.numChildren - 1);
 			this.gotoAndStop(1);
+			txtScore.text = "0";
 		}
 		
 		/**

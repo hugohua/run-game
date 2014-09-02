@@ -19,10 +19,11 @@ package com.paipai
 		public var p4:SimpleButton;
 		public var go:SimpleButton;
 		
+		
 		public function PropsPop()
 		{
 			data = {};
-//			setType('p');
+			this.y = - 600;
 			addEvent();
 		}
 		
@@ -67,7 +68,6 @@ package com.paipai
 				this.getChildByName(btns[i]).removeEventListener(MouseEvent.CLICK, clickEvent);
 			}
 			this.getChildByName('go').removeEventListener(MouseEvent.CLICK, goEvent);
-//			parent.removeChild(this);
 		}
 		
 		/**

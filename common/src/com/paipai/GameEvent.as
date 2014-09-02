@@ -2,6 +2,8 @@ package com.paipai
 {
 	import flash.display.Sprite;
 	import flash.events.Event;
+	import flash.events.KeyboardEvent;
+	import flash.events.MouseEvent;
 	
 	/**
 	 * 游戏事件派发类  游戏内大部分操作控制 通过事件 进行派发
@@ -19,7 +21,7 @@ package com.paipai
 		public static const GamePropsPopClose:String = "GamePropsPopClose";	//关闭浮层事件
 		
 		
-		private var data: Object;
+		public var data: Object;
 		//用一个空sprite 来做事件传递载体
 		public static var stage:Sprite = new Sprite();
 		

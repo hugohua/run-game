@@ -8,7 +8,7 @@ package com.paipai
 	public class Props extends MovieClip implements IFrame
 	{
 		private static const SPEED:Number = Data.SPEED;
-		private var pos:Array = [200,400];
+		private var pos:Array = [100,500];
 		private var isHit:Boolean;		//只能碰撞一次
 		
 		public function Props(x:Number)
