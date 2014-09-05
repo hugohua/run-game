@@ -24,6 +24,7 @@ package
 	import com.paipai.PropsUtils;
 	import com.paipai.Score;
 	import com.paipai.Shoe;
+	import com.paipai.Start;
 	import com.paipai.Utils;
 	
 	import flash.display.DisplayObject;
@@ -39,22 +40,24 @@ package
 	import flash.ui.Keyboard;
 	import flash.utils.Dictionary;
 	
-	[SWF(width="990", height="600", frameRate="30",backgroundColor="0x00000000")]
+	[SWF(width="990", height="600", frameRate="30",backgroundColor="0x000b1c38")]
 	public class run extends Sprite implements IFrame
 	{
 		private var xmlloader:XMLLoader;
 		private var _loaderMax:LoaderMax;
+		private var swf:SWFLoader;							//人物swf
 		
-		private var swf:Object;										//通用swf对象  
+		private var startMc:MovieClip;										//通用swf对象  
 		
-		private var swfBg:MovieClip;							//背景swf
+		private var swfBg:MovieClip;							//背景swf 
 		private var enterFRAME:Dictionary;
 		private var people:MovieClip;								//用户
-		private var popStart:MovieClip;								//弹出选择框
+		private var popStart:MovieClip;								//弹出选择框 
 		private var propsPop:MovieClip;								//物品穿戴选择
 		private var popChoose:MovieClip;
 		private var maskMc:MovieClip;
 		private var starMc:MovieClip;
+		private var resultPop:MovieClip
 		
 		private var roadBg:MovieClip;								//用户
 		private var tempArr:Array;									//
@@ -70,7 +73,7 @@ package
 		private var isOkJump:Boolean;								//用于判断是否可以跳起来
 		
 		private static const SPEED:Number = Data.SPEED;
-		private static const BGMOVEX:Number = Data.BGMOVEX;				//首屏背景移动的最终距离   
+		private static const BGMOVEX:Number = Data.BGMOVEX;				//首屏背景移动的最终距离 
 		
 		public function run()
 		{
@@ -124,20 +127,23 @@ package
 		private function init():void{
 			
 			reset();
-			LoaderMax.activate([SWFLoader,ImageLoader]);	//引入swfloader类 
+			LoaderMax.activate([SWFLoader,ImageLoader]);	//引入swfloader类  
 			xmlloader = new XMLLoader('data.xml',{name:"xmlDoc", onComplete:completeHandler,onError:errorHandler,onProgress:progressHandler});
 			xmlloader.load();
-				
+			
 		}
 
         private function completeHandler(event:LoaderEvent):void{
 			xmlloader = null;
             trace('done'); 
 			//加载开始
-			swf = LoaderMax.getContent("startSWF").rawContent;		//取得真实内容
-			addChild(swf as DisplayObject);
+//			swf = LoaderMax.getLoader("startSWF");		//取得真实内容
+//			var _Class:Class =  swf.getClass("People");
+//			startMc = new TempClass();    
+			startMc = new Start();
+			addChild(startMc);
 			//监听事件 
-			stage.addEventListener(GameEvent.GameStart, GameStartEvt);
+			GameEvent.stage.addEventListener(GameEvent.GameStart, GameStartEvt);
         }
 		
 		private function errorHandler(event:LoaderEvent):void {
@@ -190,15 +196,22 @@ package
 		 */
 		private function GameStartEvt(e:GameEvent):void{
 			trace('done');
-			stage.removeEventListener(GameEvent.GameStart, GameStartEvt);
-			swf.dispose();
-			removeChild(swf as DisplayObject);
-			swf = null;
-			type = GameModel.getInstance().type;
-			//取得xml文件中名字为"queueGirl/Boy"的LoaderMax开始加载 
-			var queue2:LoaderMax = LoaderMax.getLoader(type + "queue");  
-			queue2.addEventListener(LoaderEvent.COMPLETE, queue2CompleteHandler); 
-			queue2.load(); 
+			GameEvent.stage.removeEventListener(GameEvent.GameStart, GameStartEvt);
+			startMc.dispose();
+			
+			TweenMax.to(startMc.mcGirl,0.5,{x:-495,onComplete:function(){
+				
+				removeChild(startMc);
+				startMc = null;
+				type = GameModel.getInstance().type;
+				//取得xml文件中名字为"queueGirl/Boy"的LoaderMax开始加载  
+				var queue2:LoaderMax = LoaderMax.getLoader(type + "queue");  
+				queue2.addEventListener(LoaderEvent.COMPLETE, queue2CompleteHandler); 
+				queue2.load(); 
+			}});
+			TweenMax.to(startMc.mcBoy,0.5,{x:990});
+			TweenMax.to(startMc.mcStar,0.5,{alpha:0})
+			
 		}
 		
 		private function queue2CompleteHandler(event:LoaderEvent = null ):void {
@@ -220,7 +233,7 @@ package
 			people.gotoAndStop('run');
 			people.x = Data.PEOPLEPOS.x;
 			people.y = Data.PEOPLEPOS.y;
-			//加载场景元素   
+			//加载场景元素 
 			addChild(people);
 			//背景移动   
 			addEnterFrame('bgMove',bgMove);
@@ -231,10 +244,10 @@ package
 		 * 背景移动   
 		 */
 		private function bgMove():void{
-			swfBg.x -= SPEED;
+			swfBg.x -= Data.BGSPEEDX;
 			swfBg.y += Data.BGSPEEDY;
 			people.x += Data.PEOPLESPEED;
-			//该停止了
+			//该停止了    
 			if(swfBg.x < BGMOVEX){
 				removeEnterFrame("bgMove");
 				gameBegin();
@@ -366,7 +379,7 @@ package
 		private function _jumpEffect():void{
 			isOkJump = false;
 			people.y = Data.JUMPY;
-			TweenMax.delayedCall(.3,function(){
+			TweenMax.delayedCall(Data.JUMPTIME,function(){
 				people.y = Data.PEOPLEPOS.y;
 				isOkJump = true;
 			})
@@ -482,10 +495,15 @@ package
 			people.gotoAndStop('sanding'); 
 			addMask();
 			//弹出界面选择 
-			popChoose = loader.getPopChoose();
+			if(scoreMc.getScore() >= 10){
+				popChoose = loader.getPopChoose();
+			}else{
+				trace("未获取")
+				popChoose = loader.getPopChoose();
+			}
 			addChild(popChoose); 
 			popChoose.y = -600;
-			TweenMax.to(popChoose, .5, {y:0, delay: .5,ease:Back.easeOut});
+			TweenMax.to(popChoose, .5, {y:0, ease:Back.easeOut});
 			//添加事件 
 			popChoose.btnGo.addEventListener(MouseEvent.CLICK, nextPartEvt);
 			//关卡数 加1
@@ -499,26 +517,33 @@ package
 		 * 下一个关卡
 		 */
 		private function nextPartEvt(e:MouseEvent):void{
-			trace("nextPartEvt",popChoose,popChoose.y,GameModel.getInstance().scene)
-			TweenMax.to(popChoose,.5,{y:0, ease:Back.easeIn,onComplete:function(){
-				removeMask();
-				popChoose.btnGo.removeEventListener(MouseEvent.CLICK, nextPartEvt);
-				loader.removePropsEvent();
-				removeChild(popChoose);
-				popChoose = null;
-				
-				
-				if(GameModel.getInstance().scene < Data.MAXSCENE ){
-					trace("yes nextPartEvt");
-					//加载下一个关卡的物品选择 
-					propsPop  = loader.getPropsPop();
-					//加载场景元素  
-					addChild(propsPop);
-				}else{
-					GameEvent.win();
-				}
-				
-			}})
+			var scene:int = GameModel.getInstance().scene - 1,
+				data:Object = GameModel.getInstance().gameSocre;
+			if((scene == 1 && data.topsSelect) || (scene == 2 && data.shoeSelect) || (scene == 3 && data.lifeSelect) ){
+				TweenMax.to(popChoose,.3,{y:0, ease:Back.easeIn,onComplete:function(){
+					//				removeMask();
+					popChoose.btnGo.removeEventListener(MouseEvent.CLICK, nextPartEvt);
+					loader.removePropsEvent();
+					removeChild(popChoose);
+					popChoose = null;
+					
+					
+					if(GameModel.getInstance().scene < Data.MAXSCENE ){
+						trace("yes nextPartEvt");
+						//加载下一个关卡的物品选择  
+						propsPop  = loader.getPropsPop();
+						trace(propsPop.y) 
+						//加载场景元素  
+						//					addChildAt(propsPop,numChildren-1);
+						addChild(propsPop);
+						TweenMax.to(propsPop, .5, {y:0, ease:Back.easeOut});
+					}else{
+						GameEvent.win();
+					}
+					
+				}})
+			}
+			
 			
 		}
 		
@@ -549,18 +574,37 @@ package
 			//键盘事件
 			stage.removeEventListener(KeyboardEvent.KEY_DOWN,keyJumpEvt);
 			stage.removeEventListener(MouseEvent.CLICK,clickJumpEvt);
-			
-			playAgain();
+			//加载成功浮层 
+			resultPop = loader.getResultPop();
+			addChild(resultPop);
+			resultPop.btnReplay.addEventListener(MouseEvent.CLICK,replayEvt);
+			//添加JS调用事件方法
+			if (ExternalInterface.available){
+				try{
+					ExternalInterface.call("ppGame.showResult",GameModel.getInstance().gameSocre);
+				}catch(e:Error){
+				}
+			}
 		}
 		
 		/**
-		 * 再玩一次
+		 * 再玩一次 
 		 */
-		public function playAgain():void{
+		public function replayEvt(e:MouseEvent):void{
 			FrameTimer.add(this);
+			resultPop.btnReplay.removeEventListener(MouseEvent.CLICK,replayEvt);
+			removeChild(resultPop);
+			resultPop = null;
 			GameModel.getInstance().resetData();
 			reset();
 			gameBegin();
+			//添加JS调用事件方法
+			if (ExternalInterface.available){
+				try{
+					ExternalInterface.call("ppGame.closeResult");
+				}catch(e:Error){
+				}
+			}
 		}
 		
 		

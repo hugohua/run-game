@@ -1,0 +1,111 @@
+﻿<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1" />
+    <title>酷跑</title>
+    <link rel="stylesheet" href="http://static.paipaiimg.com/fd/paipai/base/css/gb_v2.css?t=20140903102203" type="text/css" media="screen" />
+    <style>
+        .bg1{height: 263px; background: url("img/bg1.jpg") no-repeat center center}
+        .bg2{height: 632px; background: url("img/bg2.jpg") no-repeat center center}
+        .bg3{height: 105px; background: url("img/bg3.jpg") no-repeat center center}
+        .game .grid_c1{position: relative;}
+        .view{ position: absolute; top: 200px; right: 0; width: 150px; height: 40px;}
+        .djq{position: absolute; top: 0; left: 556px; width: 170px; height: 100px;}
+        .mydjq{position: absolute; top: -17px; left: 729px; width: 150px; height: 100px;}
+        .flash{width: 990px; padding-top: 16px;}
+        .popup{position: fixed;_position:absolute; display: none; z-index:999; padding: 20px 40px; width: 850px; height: 460px; background: #fff; left: 50%; top: 50%; margin: -250px 0 0 -445px; font-family: "\5FAE\8F6F\96C5\9ED1"; color: #000; }
+        .popup_hd{font-size: 22px; padding: 30px 0 10px 0;}
+        .popup_bd{font-size: 16px;}
+        .popup_cnt li{margin-bottom: 15px;}
+        .popup_tips{color: red}
+        .mask{position:fixed;_position:absolute; display: none;z-index:998;left:0;top:0;width:100%;height:100%;background-color:#000;opacity:0.3;filter:alpha(opacity=30);}
+        .popup_close{position: absolute; top: 0; right: 0; width: 72px; height: 71px; background: url("img/bg_close.png") no-repeat}
+        .result{ position: absolute; display: none; top: 80px; left: 50%; margin-left:-392px;  z-index: 10; width: 784px; height: 441px;  background: url("img/result.png") no-repeat; font-family: "\5FAE\8F6F\96C5\9ED1";}
+        .result_num{position: absolute; top: 17px; left: 130px; font-size: 20px;font-weight: 700; color: #000}
+        .result_photo{position: absolute; width: 323px; height: 311px; top: 79px; left: 52px;}
+        .resule_tags{position: absolute;font-size: 16px; top: 123px; left: 438px; width: 312px;}
+        .resule_tags span{padding-right: 10px;}
+        .result_pp{position: absolute; top: 203px;left: 463px;width: 94px;height: 22px;}
+        .resule_share{position: absolute; top: 323px; left: 442px; width: 200px; height: 43px;}
+        .resule_share a{display: block; width: 46px; height: 43px; float: left;}
+    </style>
+</head>
+<body class="p_mini game">
+<div class="bg1">
+    <div class="grid_c1">
+        <a id="J_view" class="view" href="##"><span class="hide">详细规则说明</span></a>
+    </div>
+</div>
+<div class="bg2">
+    <div class="grid_c1">
+        <div id="flashContent" class="flash">
+
+            <object classid="clsid:d27cdb6e-ae6d-11cf-96b8-444553540000" width="990" height="600" id="game" align="middle">
+            <param name="movie" value="run.swf?2" />
+            <param name="quality" value="high" />
+            <param name="bgcolor" value="#0B1C38" />
+            <param name="allowScriptAccess" value="always" />
+            <embed name="game" src="run.swf?2" bgcolor="#0B1C38" width="990" height="600" allowScriptAccess="always" align="middle" type="application/x-shockwave-flash" pluginspage="http://www.adobe.com/go/getflashplayer">
+            </object>
+        </div>
+        <!--游戏弹窗结果-->
+        <div id="J_result" class="result">
+            <div class="result_num">3</div>
+            <img class="result_photo" src="http://img.qian-duan-she-ji.us/323x311" alt=""/>
+            <div class="resule_tags">
+                <span>标签标签</span>
+                <span>标签标签</span>
+                <span>标签标签</span>
+                <span>标签标签</span>
+                <span>标签标签</span>
+            </div>
+            <a href="##" class="result_pp"><span class="hide">我的拍拍</span></a>
+            <div class="resule_share">
+                <a href="##" title="分享到QQ空间"><span class="hide">分享到QQ空间</span></a>
+                <a href="##" title="分享到QQ"><span class="hide">分享到QQ</span></a>
+                <a href="##" title="分享到新浪微博"><span class="hide">分享到新浪微博</span></a>
+                <a href="##" title="分享到微信"><span class="hide">分享到微信</span></a>
+            </div>
+
+        </div>
+    </div>
+</div>
+<div class="bg3">
+    <div class="grid_c1">
+        <a class="djq" href="##"><span class="hide">代金券使用说明</span></a>
+        <a class="mydjq" href="##"><span class="hide">我的代金券</span></a>
+    </div>
+</div>
+
+<div id="J_popup" class="popup">
+    <div class="popup_hd">
+        详细规则说明：
+    </div>
+    <div class="popup_bd">
+        <ol class="popup_cnt">
+            <li>1、每关有四款不同风格标签的物品可选，您可以根据个人喜好选择一款或多款物品。
+            </li>
+            <li>2、游戏共三关，每关限时30秒，酷跑过程中请收集尽可能多的心仪物品，注意躲避，每遭遇一次会扣减一个心仪物品，
+                得到20个以上的心仪物品即算闯关成功，并可获得该物品。
+            </li>
+            <li>3、酷跑过程中，按键盘上下方向键可切换路线，点击鼠标左键或键盘空格-跳跃。</li>
+            <li>4、通关奖励：游戏通关您可以使用“战利品”自由装扮个人形象，并可拍照获得独一无二的“我的拍拍个性形象”，
+                选择贴上个性风格标签，进入我的拍拍，专属个性款好货日日上新。成功通关装扮个性形象更可获得拍拍网代金券一张。
+            </li>
+            <li>5、代金券的发放与使用：活动期间每位玩家通过本游戏可获得1张代金券。代金券面值5元，可在拍拍任意店铺（虚拟商品除外）
+                购物满50元使用。
+                </li>
+        </ol>
+        <p class="popup_tips">有效期：自发放日起计算30日内有效。更多详情以收到的代金券使用说明为准。</p>
+        <a class="popup_close J_close" href="##"><span class="hide">关闭</span></a>
+    </div>
+</div>
+<div id="J_mask" class="mask"></div>
+<script type="text/javascript" src="http://static.paipaiimg.com/js/jquery.1.8.js?t=1.8.3"></script>
+<script type="text/javascript" charset="utf-8" src="http://static.paipaiimg.com/fd/paipai/base/js/libs/pui.js?v=2ac042d759"></script>
+<script src="js/run.js"></script>
+</body>
+</html>
+
+

@@ -2,8 +2,6 @@ package com.paipai
 {
 	import flash.display.Sprite;
 	import flash.events.Event;
-	import flash.events.KeyboardEvent;
-	import flash.events.MouseEvent;
 	
 	/**
 	 * 游戏事件派发类  游戏内大部分操作控制 通过事件 进行派发
@@ -19,6 +17,7 @@ package com.paipai
 		public static const GameHitProps:String = "GameHitProps";				//碰撞到 道具
 		public static const GameWin:String = "GameWin";						//赢得游戏
 		public static const GamePropsPopClose:String = "GamePropsPopClose";	//关闭浮层事件
+		public static const GameReplay:String = "GameReplay";
 		
 		
 		public var data: Object;
@@ -29,6 +28,13 @@ package com.paipai
 		{
 			super(type, bubbles, cancelable);
 			this.data = data;
+		}
+		
+		/**
+		 * 开始游戏
+		 */
+		public static function start(obj:Object):void{
+			GameEvent.stage.dispatchEvent( new GameEvent(GameEvent.GameStart,obj) );
 		}
 		
 		/**

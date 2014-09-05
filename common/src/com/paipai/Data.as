@@ -14,11 +14,15 @@ package com.paipai
 		
 		public static const PEOPLESPEED:Number = 1.2;				//第一个场景 人跑步的速度
 		
-		public static const BGSPEEDY:Number = 2.7;					//第一个场景 背景移动的速度
+		//第一个场景 背景移动的速度
+		public static const BGSPEEDX:Number = 5;				
+		public static const BGSPEEDY:Number = 2.7;
 		
-		public static const BGMOVEX:Number = -705;				//首屏背景移动的最终距离  
+		public static const BGMOVEX:Number = -960;				//首屏背景移动的最终距离  
 		
 		public static const DISTANCE:Number = -7200;			//最终距离
+		
+		public static const JUMPTIME:Number = 0.5;				//跳起来的时间
 		
 		//跑步的人 默认位置
 		public static const PEOPLEPOS:Object = {
@@ -28,7 +32,7 @@ package com.paipai
 		
 		public static const JUMPY:Number = 400;
 		
-		public static const MAXSCENE:int = 4;		//最大关卡数
+		public static const MAXSCENE:int = 2;//4;		//最大关卡数
 		
 	}
 }

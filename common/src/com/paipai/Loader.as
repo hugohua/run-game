@@ -308,6 +308,15 @@ package com.paipai
 			return mc;
 		}
 		
+		/**
+		 * 显示结果浮层
+		 */
+		public function getResultPop():MovieClip{
+			TempClass =  swfScene.getClass("ResultPop");
+			mc = new TempClass();
+			return mc;
+		}
+		
 		
 		
 		

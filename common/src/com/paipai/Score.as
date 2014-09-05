@@ -11,6 +11,7 @@ package com.paipai
 		private var totalLen:int;
 		private var isWin:int;		//0是输  3是赢
 		public var txtScore:TextField;
+		private var _score:int;
 		
 		
 		public function Score()
@@ -34,6 +35,7 @@ package com.paipai
 				cur = totalLen;
 				isWin = 0;
 			}
+			_score = cur;
 			this.gotoAndStop(cur);
 			txtScore.text = cur.toString();
 			return isWin;
@@ -50,7 +52,7 @@ package com.paipai
 				cur = 0;
 				isWin = 3;
 			}
-			
+			_score = cur;
 			this.gotoAndStop(cur);
 			txtScore.text = cur.toString();
 			return isWin;
@@ -59,7 +61,12 @@ package com.paipai
 		public function reset():void{
 			parent.setChildIndex(this,parent.numChildren - 1);
 			this.gotoAndStop(1);
+			_score = 0;
 			txtScore.text = "0";
+		}
+		
+		public function getScore():int{
+			return _score;
 		}
 		
 		/**
