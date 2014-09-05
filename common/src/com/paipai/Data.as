@@ -8,7 +8,7 @@ package com.paipai
 		}
 		
 		//速度
-		public static const SPEED:int = 40;//15;
+		public static const SPEED:int = 10;//15;
 		
 //		public static const LOOP:int = 5;						//场景循环次数
 		
@@ -20,7 +20,7 @@ package com.paipai
 		
 		public static const BGMOVEX:Number = -960;				//首屏背景移动的最终距离  
 		
-		public static const DISTANCE:Number = -7200;			//最终距离
+		public static const DISTANCE:Number = -15000;			//最终距离
 		
 		public static const JUMPTIME:Number = 0.5;				//跳起来的时间
 		
@@ -32,7 +32,7 @@ package com.paipai
 		
 		public static const JUMPY:Number = 400;
 		
-		public static const MAXSCENE:int = 2;//4;		//最大关卡数
+		public static const MAXSCENE:int = 4;//4;		//最大关卡数
 		
 	}
 }

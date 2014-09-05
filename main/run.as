@@ -367,17 +367,17 @@ package
 			}
 		}
 		
-		private function clickJumpEvt(e:MouseEvent){
+		private function clickJumpEvt(e:MouseEvent):void{
 			if(isOkJump){
 				_jumpEffect();
 			}
 		}
 		
 		/**
-		 * 跳起效果
+		 * 跳起效果    
 		 */
 		private function _jumpEffect():void{
-			isOkJump = false;
+			isOkJump = false; 
 			people.y = Data.JUMPY;
 			TweenMax.delayedCall(Data.JUMPTIME,function(){
 				people.y = Data.PEOPLEPOS.y;
@@ -390,7 +390,7 @@ package
 		 */
 		private function createBarrs():void{
 			var scene:int = GameModel.getInstance().scene;
-			var babaXArr:Array = Utils.createRandom(1 + scene);				//大便数组 
+			var babaXArr:Array = Utils.createRandom(1 + scene);				//大便数组  
 			var babaXLen:int = babaXArr.length;
 			var barrLen:int = barrierArr.length;					//存放大便对象的数组
 			//先清除之前的道具
@@ -404,7 +404,7 @@ package
 			}
 			//生成大便 
 			for (var m=0; m< babaXLen; m++){
-				barrier = new Barrier(babaXArr[m]);
+				barrier = new Barrier(babaXArr[m] - 360);
 				addChild(barrier);
 				barrierArr.push(barrier);
 			}
@@ -516,33 +516,34 @@ package
 		/**
 		 * 下一个关卡
 		 */
-		private function nextPartEvt(e:MouseEvent):void{
-			var scene:int = GameModel.getInstance().scene - 1,
-				data:Object = GameModel.getInstance().gameSocre;
-			if((scene == 1 && data.topsSelect) || (scene == 2 && data.shoeSelect) || (scene == 3 && data.lifeSelect) ){
-				TweenMax.to(popChoose,.3,{y:0, ease:Back.easeIn,onComplete:function(){
-					//				removeMask();
-					popChoose.btnGo.removeEventListener(MouseEvent.CLICK, nextPartEvt);
-					loader.removePropsEvent();
-					removeChild(popChoose);
-					popChoose = null;
-					
-					
-					if(GameModel.getInstance().scene < Data.MAXSCENE ){
-						trace("yes nextPartEvt");
-						//加载下一个关卡的物品选择  
-						propsPop  = loader.getPropsPop();
-						trace(propsPop.y) 
-						//加载场景元素  
-						//					addChildAt(propsPop,numChildren-1);
-						addChild(propsPop);
-						TweenMax.to(propsPop, .5, {y:0, ease:Back.easeOut});
-					}else{
-						GameEvent.win();
-					}
-					
-				}})
-			}
+		private function nextPartEvt(e:MouseEvent):void{ 
+//			var scene:int = GameModel.getInstance().scene - 1, 
+//				data:Object = GameModel.getInstance().gameSocre;
+//			if((scene == 1 && data.topsSelect) || (scene == 2 && data.shoeSelect) || (scene == 3 && data.lifeSelect) ){
+//				
+//			}
+			
+			TweenMax.to(popChoose,.3,{y:0, ease:Back.easeIn,onComplete:function(){
+				popChoose.btnGo.removeEventListener(MouseEvent.CLICK, nextPartEvt);
+				loader.removePropsEvent();
+				removeChild(popChoose);
+				popChoose = null;
+				
+				
+				if(GameModel.getInstance().scene < Data.MAXSCENE ){
+					trace("yes nextPartEvt");
+					//加载下一个关卡的物品选择  
+					propsPop  = loader.getPropsPop();
+					trace(propsPop.y) 
+					//加载场景元素  
+					//					addChildAt(propsPop,numChildren-1);
+					addChild(propsPop);
+					TweenMax.to(propsPop, .5, {y:0, ease:Back.easeOut});
+				}else{
+					GameEvent.win();
+				}
+				
+			}})
 			
 			
 		}
