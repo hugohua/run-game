@@ -246,11 +246,29 @@ package com.paipai
 			var scene:int = GameModel.getInstance().scene - 1;
 			if(scene == 1){
 				GameModel.getInstance().setTopsSelect(name);
+				for(var i:int = 1;i <= 4;i++){
+					popMc.pmcPeople['pmcTopsp' + i].visible = false;
+				};
 			}else if(scene == 2){
 				GameModel.getInstance().setShoeSelect(name);
+				for(var k:int = 1;k <= 4;k++){
+					popMc.pmcPeople['pmcShoep' + k].visible = false;
+				};
 			}else if(scene == 3){
 				GameModel.getInstance().setLifeSelect(name);
+				for(var j:int = 1;j <= 4;j++){
+					popMc.pmcPeople['pmcLifep' + j].visible = false;
+				};
 			}
+			popMc.pmcPeople['p' + name].visible = true;
+			trace(name,popMc.pmcPeople,popMc,"name")
+		}
+		
+		/**
+		 * 显示单个物品
+		 */
+		private function showItem():void{
+			
 		}
 		
 		/**

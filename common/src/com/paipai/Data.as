@@ -8,7 +8,7 @@ package com.paipai
 		}
 		
 		//速度
-		public static const SPEED:int = 10;//15;
+		public static const SPEED:int = 60;//15;
 		
 //		public static const LOOP:int = 5;						//场景循环次数
 		

@@ -8,7 +8,7 @@ package com.paipai
 	public class Props extends MovieClip implements IFrame
 	{
 		private static const SPEED:Number = Data.SPEED;
-		private var pos:Array = [130,450];
+//		private var pos:Array = [130,450];
 		private var isHit:Boolean;		//只能碰撞一次
 		
 		public function Props(x:Number)
@@ -16,7 +16,7 @@ package com.paipai
 			//TODO: implement function
 			super();
 			this.x  = x;
-			this.y = Utils.getRandom(pos);
+			this.y =  450;	//;Utils.getRandom(pos);
 			this.gotoAndStop(1);
 			FrameTimer.add(this); 
 			//监听over事件
