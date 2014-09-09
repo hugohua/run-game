@@ -45,9 +45,9 @@ package
 	{
 		private var xmlloader:XMLLoader;
 		private var _loaderMax:LoaderMax;
-		private var swf:SWFLoader;							//人物swf
+		private var swf:SWFLoader;							//人物swf 
 		
-		private var startMc:MovieClip;										//通用swf对象  
+		private var startMc:MovieClip;										//通用swf对象
 		
 		private var swfBg:MovieClip;							//背景swf 
 		private var enterFRAME:Dictionary;
@@ -285,10 +285,10 @@ package
 			roadBg = loader.getSceneBackground();
 			addChild(roadBg);
 			
-			//加载站立裸体人
+			//加载站立裸体人  
 			people.gotoAndStop('sanding');
 			addMask();
-			//继续保持浮层的最高层位置
+			//继续保持浮层的最高层位置 
 			setChildIndex(propsPop,numChildren-1);
 			//小动画 
 			TweenMax.to(propsPop,.5,{y:-600, ease:Back.easeIn,onComplete:function(){
@@ -299,13 +299,13 @@ package
 				removeChild(propsPop);
 				propsPop = null;
 				
-				//移除遮罩  
+				//移除遮罩   
 				removeMask();
 				//加载游戏提示
 				if(firstPlay){
 					popStart = loader.getSceenGameTips();
 					addChild(popStart);
-					//添加开始事件
+					//添加开始事件 
 					popStart.btnGamePlay.addEventListener(MouseEvent.CLICK, GamePlayEvt);
 				}else{
 					GamePlayEvt();
@@ -390,7 +390,7 @@ package
 		 */
 		private function createBarrs():void{
 			var scene:int = GameModel.getInstance().scene;
-			var babaXArr:Array = Utils.createRandom(1 + scene);				//大便数组  
+			var babaXArr:Array = Utils.createRandom(3 + scene);				//大便数组  
 			var babaXLen:int = babaXArr.length;
 			var barrLen:int = barrierArr.length;					//存放大便对象的数组
 			//先清除之前的道具
