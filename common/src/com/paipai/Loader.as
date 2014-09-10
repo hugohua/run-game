@@ -227,14 +227,31 @@ package com.paipai
 		public function getPopChoose():MovieClip{
 			var scene:int = GameModel.getInstance().scene;
 			var mc:MovieClip;
-			if(scene == 1){
-				mc = getTopsPop();
-			}else if(scene == 2){
+			if(scene == 2){
 				mc = getShoePop();
 			}else if(scene == 3){
 				mc = getLiftPop();
+			}else{
+				mc = getTopsPop(); 
 			}
+			setPopSelectItem();
 			return mc;
+		}
+		
+		/**
+		 * 弹出浮层时，先设置已经穿上的物品
+		 */
+		private function setPopSelectItem():void{
+			var data:Object = GameModel.getInstance().gameSocre;
+			if(data.topsSelect){
+				popMc.pmcPeople['p' + data.topsSelect].visible = true;
+			}
+			if(data.shoeSelect){
+				popMc.pmcPeople['p' + data.shoeSelect].visible = true;
+			}
+			if(data.lifeSelect){
+				popMc.pmcPeople['p' + data.lifeSelect].visible = true;
+			}
 		}
 		
 		/**

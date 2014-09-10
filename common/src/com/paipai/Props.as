@@ -16,7 +16,7 @@ package com.paipai
 			//TODO: implement function
 			super();
 			this.x  = x;
-			this.y =  450;	//;Utils.getRandom(pos);
+			this.y =  500;	//;Utils.getRandom(pos);
 			this.gotoAndStop(1);
 			FrameTimer.add(this); 
 			//监听over事件

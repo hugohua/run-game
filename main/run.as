@@ -9,6 +9,7 @@ package
 	import com.greensock.loading.SWFLoader;
 	import com.greensock.loading.XMLLoader;
 	import com.greensock.loading.display.ContentDisplay;
+	import com.greensock.loading.display.FlexContentDisplay;
 	import com.greensock.plugins.BlurFilterPlugin;
 	import com.greensock.plugins.TransformAroundCenterPlugin;
 	import com.greensock.plugins.TweenPlugin;
@@ -57,7 +58,8 @@ package
 		private var popChoose:MovieClip;
 		private var maskMc:MovieClip;
 		private var starMc:MovieClip;
-		private var resultPop:MovieClip
+		private var resultPop:MovieClip;
+		private var progress:MovieClip;
 		
 		private var roadBg:MovieClip;								//用户
 		private var tempArr:Array;									//
@@ -128,14 +130,17 @@ package
 			
 			reset();
 			LoaderMax.activate([SWFLoader,ImageLoader]);	//引入swfloader类  
-			xmlloader = new XMLLoader('data.xml',{name:"xmlDoc", onComplete:completeHandler,onError:errorHandler,onProgress:progressHandler});
+			xmlloader = new XMLLoader('data.xml',{name:"xmlDoc", onOpen :openHandler, onComplete:completeHandler,onError:errorHandler,onProgress:progressHandler});
 			xmlloader.load();
 			
 		}
+		
 
         private function completeHandler(event:LoaderEvent):void{
+			
 			xmlloader = null;
             trace('done'); 
+			removeProgress();
 			//加载开始
 //			swf = LoaderMax.getLoader("startSWF");		//取得真实内容
 //			var _Class:Class =  swf.getClass("People");
@@ -146,11 +151,30 @@ package
 			GameEvent.stage.addEventListener(GameEvent.GameStart, GameStartEvt);
         }
 		
+		private function addProgress():void{
+			progress = new Progress();
+			progress.x = 450;
+			progress.y = 280;
+			progress.bar_mc.scaleX = 0;
+			addChild(progress);
+		}
+		
+		private function removeProgress():void{
+			removeChild(progress);
+			progress = null;
+		}
+		
+		private function openHandler(event:LoaderEvent):void {
+			addProgress();
+		}
+		
 		private function errorHandler(event:LoaderEvent):void {
+			progress.bar_mc.scaleX = event.target.progress;
 			trace("error occured with " + event.target + ": " + event.text);
 		}
 		
 		private function progressHandler(event:LoaderEvent):void {
+			progress.bar_mc.scaleX = event.target.progress;
 			trace("progress: " + event.target.progress);
 		}
 		
@@ -204,9 +228,11 @@ package
 				removeChild(startMc);
 				startMc = null;
 				type = GameModel.getInstance().type;
-				//取得xml文件中名字为"queueGirl/Boy"的LoaderMax开始加载  
+				//取得xml文件中名字为"queueGirl/Boy"的LoaderMax开始加载
 				var queue2:LoaderMax = LoaderMax.getLoader(type + "queue");  
 				queue2.addEventListener(LoaderEvent.COMPLETE, queue2CompleteHandler); 
+				queue2.addEventListener(LoaderEvent.OPEN, openHandler); 
+				queue2.addEventListener(LoaderEvent.PROGRESS, progressHandler); 
 				queue2.load(); 
 			}});
 			TweenMax.to(startMc.mcBoy,0.5,{x:990});
@@ -214,7 +240,8 @@ package
 			
 		}
 		
-		private function queue2CompleteHandler(event:LoaderEvent = null ):void {
+		private function queue2CompleteHandler(event:LoaderEvent):void {
+			removeProgress();
 			//开始time 
 			FrameTimer.init();
 			FrameTimer.add(this);
@@ -325,6 +352,8 @@ package
 				//取消第一次游戏提示  
 				firstPlay = false;
 			}
+			//聚焦画布上
+			stage.focus = stage;
 			//加载跑步的人  
 			people.gotoAndStop('run');
 			//穿上装备
@@ -412,7 +441,7 @@ package
 		
 		
 		/**
-		 * 生成道具 
+		 * 生成道具
 		 */
 		private function createProps():void{
 			var scene:int = GameModel.getInstance().scene;
