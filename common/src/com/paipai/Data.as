@@ -12,11 +12,11 @@ package com.paipai
 		
 //		public static const LOOP:int = 5;						//场景循环次数
 		
-		public static const PEOPLESPEED:Number = 1.2;				//第一个场景 人跑步的速度
+		public static const PEOPLESPEED:Number = 1.5;				//第一个场景 人跑步的速度
 		
 		//第一个场景 背景移动的速度
-		public static const BGSPEEDX:Number = 5;				
-		public static const BGSPEEDY:Number = 2.7;
+		public static const BGSPEEDX:Number = 6;				
+		public static const BGSPEEDY:Number = 3.1;
 		
 		public static const BGMOVEX:Number = -960;				//首屏背景移动的最终距离  
 		

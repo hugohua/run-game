@@ -144,7 +144,7 @@ package
 			//加载开始
 //			swf = LoaderMax.getLoader("startSWF");		//取得真实内容
 //			var _Class:Class =  swf.getClass("People");
-//			startMc = new TempClass();    
+//			startMc = new TempClass();     
 			startMc = new Start();
 			addChild(startMc);
 			//监听事件 
@@ -153,8 +153,8 @@ package
 		
 		private function addProgress():void{
 			progress = new Progress();
-			progress.x = 450;
-			progress.y = 280;
+			progress.x = 395;
+			progress.y = 291;
 			progress.bar_mc.scaleX = 0;
 			addChild(progress);
 		}
