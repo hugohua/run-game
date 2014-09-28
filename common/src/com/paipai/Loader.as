@@ -17,7 +17,7 @@ package com.paipai
 	public class Loader
 	{
 		private var type:String;
-		private var swfPeople:SWFLoader;							//人物swf
+		private var swfPeople:SWFLoader;							//人物swf 
 		private var swfScene:SWFLoader;							//运动场景
 		private var TempClass:Class;
 		private var mc:MovieClip;
@@ -349,6 +349,17 @@ package com.paipai
 		public function getResultPop():MovieClip{
 			TempClass =  swfScene.getClass("ResultPop");
 			mc = new TempClass();
+			return mc;
+		}
+		
+		/**
+		 * 加1效果
+		 */
+		public function getAddEffect(x:Number,y:Number):MovieClip{
+			TempClass =  swfScene.getClass("AddEffect");
+			mc = new TempClass();
+			mc.x = x;
+			mc.y = y;
 			return mc;
 		}
 		

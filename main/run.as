@@ -41,12 +41,12 @@ package
 	import flash.ui.Keyboard;
 	import flash.utils.Dictionary;
 	
-	[SWF(width="990", height="600", frameRate="30",backgroundColor="0x000b1c38")]
+	[SWF(width="990", height="600", frameRate="30",backgroundColor="0x000b1c38")] 
 	public class run extends Sprite implements IFrame
 	{
 		private var xmlloader:XMLLoader;
 		private var _loaderMax:LoaderMax;
-		private var swf:SWFLoader;							//人物swf 
+		private var swf:SWFLoader;							//人物swf  
 		
 		private var startMc:MovieClip;										//通用swf对象
 		
@@ -69,6 +69,7 @@ package
 		private var barrier:Barrier;								//大便
 		private var props:MovieClip;								//道具等
 		private var scoreMc:MovieClip;								//成绩
+		private var addMc:MovieClip;								//加分效果
 		private var type:String
 		private var loader:Loader;
 		private var firstPlay:Boolean;								//判定是否是第一次游戏
@@ -478,7 +479,7 @@ package
 		}
 		
 		/**
-		 * 碰撞检测道具 
+		 * 碰撞检测道具  
 		 */
 		private function GameHitPropsEvt(e:GameEvent):void{
 			people.mcRun.tou.visible = false;
@@ -494,6 +495,12 @@ package
 				}
 			});
 			TweenMax.to(e.data.hit, 0.5, {alpha:0,delay:0.2,blurFilter:{blurX:20, blurY:20, quality:3}});
+			//加1效果 
+			addMc = loader.getAddEffect(people.x - 20,people.y - 320);
+			addChild(addMc);
+			addMc.alpha = 1;
+			TweenMax.to(addMc, 1.5, {y:people.y - 360, alpha:0,  ease:Back.easeOut});
+			
 		}
 		
 		/**
