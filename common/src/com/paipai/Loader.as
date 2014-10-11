@@ -42,7 +42,7 @@ package com.paipai
 		{
 			type = GameModel.getInstance().type;
 			swfPeople = LoaderMax.getLoader(type + "SWF");				//取得swf
-			swfScene = LoaderMax.getLoader(type + "SceneSWF");
+			swfScene = LoaderMax.getLoader( "sceneSWF");
 			
 		}
 		

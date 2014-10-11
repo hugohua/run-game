@@ -130,9 +130,19 @@ package
 		private function init():void{
 			
 			reset();
-			LoaderMax.activate([SWFLoader,ImageLoader]);	//引入swfloader类  
-			xmlloader = new XMLLoader('data.xml',{name:"xmlDoc", onOpen :openHandler, onComplete:completeHandler,onError:errorHandler,onProgress:progressHandler});
-			xmlloader.load();
+			LoaderMax.activate([SWFLoader]);	//引入swfloader类  
+//			xmlloader = new XMLLoader('data.xml',{name:"xmlDoc", onOpen :openHandler, onComplete:completeHandler,onError:errorHandler,onProgress:progressHandler});
+//			xmlloader.load();
+			
+			var queue:LoaderMax = new LoaderMax({name:"mainQueue",onOpen :openHandler,  onProgress:progressHandler, onComplete:completeHandler, onError:errorHandler});
+			
+			//append several loaders
+			queue.append( new SWFLoader("start.swf", {name:"startSWF",estimatedBytes:51200, autoPlay:false}) );
+			queue.append( new SWFLoader("boy.swf", {name:"boySWF",estimatedBytes:60108, autoPlay:false}) );
+			queue.append( new SWFLoader("girl.swf", {name:"girlSWF", estimatedBytes:51200, autoPlay:false}) );
+			queue.append( new SWFLoader("scene.swf", {name:"sceneSWF",estimatedBytes:64512, autoPlay:false}) );
+
+			queue.load();
 			
 		}
 		
@@ -141,11 +151,8 @@ package
 			
 			xmlloader = null;
             trace('done'); 
-			removeProgress();
-			//加载开始
-//			swf = LoaderMax.getLoader("startSWF");		//取得真实内容
-//			var _Class:Class =  swf.getClass("People");
-//			startMc = new TempClass();     
+//			removeProgress();
+
 			startMc = new Start();
 			addChild(startMc);
 			//监听事件 
@@ -229,19 +236,22 @@ package
 				removeChild(startMc);
 				startMc = null;
 				type = GameModel.getInstance().type;
-				//取得xml文件中名字为"queueGirl/Boy"的LoaderMax开始加载
-				var queue2:LoaderMax = LoaderMax.getLoader(type + "queue");  
-				queue2.addEventListener(LoaderEvent.COMPLETE, queue2CompleteHandler); 
-				queue2.addEventListener(LoaderEvent.OPEN, openHandler); 
-				queue2.addEventListener(LoaderEvent.PROGRESS, progressHandler); 
-				queue2.load(); 
+				
+				queue2CompleteHandler();
+				//取得xml文件中名字为"queueGirl/Boy"的LoaderMax开始加载 
+//				
+//				var queue2:LoaderMax = LoaderMax.getLoader(type + "queue");  
+//				queue2.addEventListener(LoaderEvent.COMPLETE, queue2CompleteHandler); 
+//				queue2.addEventListener(LoaderEvent.OPEN, openHandler); 
+//				queue2.addEventListener(LoaderEvent.PROGRESS, progressHandler); 
+//				queue2.load(); 
 			}});
 			TweenMax.to(startMc.mcBoy,0.5,{x:990});
 			TweenMax.to(startMc.mcStar,0.5,{alpha:0})
 			
 		}
 		
-		private function queue2CompleteHandler(event:LoaderEvent):void {
+		private function queue2CompleteHandler(event:LoaderEvent = null):void {
 			removeProgress();
 			//开始time 
 			FrameTimer.init();

@@ -1,19 +1,10 @@
 <?xml version="1.0" encoding="iso-8859-1"?>
 <data>
-<LoaderMax name="dynamicLoaderMax" load="true">
-    <ImageLoader name="photo1" url="img/bg_nv.png"/>
+<LoaderMax name="dynamicLoaderMax"  load="true">
     <SWFLoader name="startSWF" url="start.swf" autoPlay="false"/>
-</LoaderMax>
-<LoaderMax name="boyqueue" load="false">
     <SWFLoader name="boySWF" url="boy.swf" autoPlay="false"/>
-    <SWFLoader name="boyPart1SWF" url="part1.swf" autoPlay="false"/>
-    <SWFLoader name="boySceneSWF" url="scene.swf" autoPlay="false"/>
-</LoaderMax>
-
-<LoaderMax name="girlqueue" load="false">
     <SWFLoader name="girlSWF" url="girl.swf" autoPlay="false"/>
-    <SWFLoader name="girlPart1SWF" url="part1.swf" autoPlay="false"/>
-    <SWFLoader name="girlSceneSWF" url="scene.swf" autoPlay="false"/>
+    <SWFLoader name="part1SWF" url="part1.swf" autoPlay="false"/>
+    <SWFLoader name="sceneSWF" url="scene.swf" autoPlay="false"/>
 </LoaderMax>
-
 </data>

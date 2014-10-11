@@ -27,7 +27,7 @@ package com.paipai
 			mcGirl = this.getChildByName('mcGirl') as MovieClip;
 			mcGirl.btnGo.addEventListener(MouseEvent.CLICK,startGameEvent);
 			//.btnGo2.addEventListener(MouseEvent.CLICK,startGameEvent); 
-//			this.getChildByName('mcGirl').btnGo.addEventListener(MouseEvent.CLICK,startGameEvent);
+//			this.getChildByName('mcGirl').btnGo.addEventListener(MouseEvent.CLICK,startGameEvent); 
 		}
 		
 		private function startGameEvent(e:MouseEvent):void{
